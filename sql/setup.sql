@@ -11,10 +11,14 @@ create table if not exists public.rsvp (
   id         bigint generated always as identity primary key,
   created_at timestamptz not null default now(),
   name       text        not null check (char_length(trim(name)) between 1 and 80),
+  phone      text        check (char_length(phone) <= 20),
   attending  text        not null check (attending in ('yes','no')),
   guests     smallint    not null default 0 check (guests between 0 and 20),
   note       text        check (char_length(note) <= 500)
 );
+-- safe to re-run on a table made before the phone field existed
+alter table public.rsvp add column if not exists phone text check (char_length(phone) <= 20);
+
 create index if not exists rsvp_created_at_idx on public.rsvp (created_at desc);
 
 -- Nothing is allowed until a policy says so.
@@ -27,20 +31,22 @@ create policy "a guest may reply" on public.rsvp
   for insert to anon with check (true);
 
 -- ── the couple's list: readable only with the secret ───────────────
-create or replace function public.guest_list(pass text)
-returns table (id bigint, name text, attending text, guests smallint, note text, created_at timestamptz)
+drop function if exists public.guest_list(text);
+create function public.guest_list(pass text)
+returns table (id bigint, name text, phone text, attending text, guests smallint, note text, created_at timestamptz)
 language plpgsql security definer set search_path = public
 as $$
 begin
   if pass is null or pass <> 'PUT_YOUR_SECRET_HERE' then
     raise exception 'not found' using errcode = 'P0002';
   end if;
-  return query select r.id, r.name, r.attending, r.guests, r.note, r.created_at
+  return query select r.id, r.name, r.phone, r.attending, r.guests, r.note, r.created_at
                from public.rsvp r order by r.created_at desc;
 end $$;
 
 -- add a guest by hand (for the aunt who replies by phone)
-create or replace function public.guest_add(pass text, p_name text, p_attending text, p_guests smallint, p_note text)
+drop function if exists public.guest_add(text, text, text, smallint, text);
+create or replace function public.guest_add(pass text, p_name text, p_attending text, p_guests smallint, p_note text, p_phone text default null)
 returns bigint
 language plpgsql security definer set search_path = public
 as $$
@@ -49,8 +55,8 @@ begin
   if pass is null or pass <> 'PUT_YOUR_SECRET_HERE' then
     raise exception 'not found' using errcode = 'P0002';
   end if;
-  insert into public.rsvp (name, attending, guests, note)
-  values (trim(p_name), p_attending, coalesce(p_guests, 0), nullif(trim(p_note), ''))
+  insert into public.rsvp (name, phone, attending, guests, note)
+  values (trim(p_name), nullif(trim(p_phone), ''), p_attending, coalesce(p_guests, 0), nullif(trim(p_note), ''))
   returning id into new_id;
   return new_id;
 end $$;
@@ -71,10 +77,10 @@ begin
 end $$;
 
 revoke all on function public.guest_list(text)                              from public, anon, authenticated;
-revoke all on function public.guest_add(text, text, text, smallint, text)   from public, anon, authenticated;
+revoke all on function public.guest_add(text, text, text, smallint, text, text) from public, anon, authenticated;
 revoke all on function public.guest_remove(text, bigint)                    from public, anon, authenticated;
 grant execute on function public.guest_list(text)                            to anon;
-grant execute on function public.guest_add(text, text, text, smallint, text) to anon;
+grant execute on function public.guest_add(text, text, text, smallint, text, text) to anon;
 grant execute on function public.guest_remove(text, bigint)                  to anon;
 
 -- To change the secret later: re-run the three "create or replace function"

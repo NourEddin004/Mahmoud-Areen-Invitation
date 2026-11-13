@@ -31,12 +31,27 @@ window.INVITE = {
   cityAr  : 'البحر الميت — الأردن',
   mapUrl  : 'https://maps.app.goo.gl/6iPR6n12V6eGU8RT8',
 
-  // ── the letter (keep it short — three or four lines read best) ────
-  letterAr: [
-    'بعد سنواتٍ من الأحلام الصغيرة، اخترنا أن نكمل الطريق معاً.',
-    'وليس لفرحتنا أن تكتمل من دونكم — أنتم الذين كنتم معنا في كل خطوة.',
-    'شاركونا الليلة التي ننتظرها، ودعاءكم الذي نحمله معنا.',
+  venueEn : 'Mövenpick Resort & Spa Dead Sea',
+  addressAr: 'سويمة — البحر الميت، الأردن',
+  lat     : 31.717054,                 // for the Apple Maps button
+  lng     : 35.587433,
+
+  // ── the invitation wording ────────────────────────────────────────
+  familiesAr: ['صالح', 'شهوان'],       // آل صالح & آل شهوان
+  whenAr  : 'يوم السبت، الثامن والعشرين من تشرين الثاني 2026',
+
+  // ── programme ⚠️ SAMPLE TIMES — confirm with the couple ───────────
+  programme: [
+    ['5:00', 'استقبال الضيوف',  'نرحّب بكم على ضفاف البحر الميت'],
+    ['6:00', 'زفّة العروسين',     'لنستقبلهما معاً بالفرح'],
+    ['7:00', 'العشاء',           'على شرف الحضور الكريم'],
+    ['8:30', 'قطع الكعكة',       'والرقصة الأولى'],
   ],
+
+  // ── dress code ⚠️ SAMPLE — confirm with the couple ─────────────────
+  attireAr: 'لباس رسمي',
+  attireNoteAr: 'نرجو ترك اللون الأبيض والعاجي للعروس.',
+  palette : [['#EFE6D2','شمبانيا'], ['#C9B48A','ذهبي'], ['#A9B79A','مريمية'], ['#6F7F5E','زيتي'], ['#8A7356','بنّي'], ['#2E2A22','أسود']],
 
   // ── optional photo for the oval frame (path or URL, '' = monogram) ─
   photo   : '',

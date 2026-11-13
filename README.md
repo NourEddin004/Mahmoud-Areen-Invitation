@@ -9,6 +9,15 @@ An online wedding invitation, mobile first, with two links:
 
 Personal links also work: `/?to=أبو خالد` writes the guest's name on the envelope and pre-fills the RSVP.
 
+## Section order
+
+Follows the client's "The Arch" invitation, redrawn in this design:
+envelope (opens on its own after the card rises) → Save the Date lake →
+engraved invitation wording → programme → countdown → venue card →
+dress code → ticket-style RSVP (name, phone, attendance, guests, note) → moonlit footer.
+
+⚠️ The programme times and the dress code in `config.js` are **samples** until the couple confirms them.
+
 ## The design — a blend of the two references
 
 * **Château reference:** the cream blind-embossed envelope sealed with a sage wax monogram, the string-light garlands, the countdown, the "a word from us" letter card, the RSVP flow.

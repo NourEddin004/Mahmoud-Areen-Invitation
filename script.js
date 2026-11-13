@@ -30,8 +30,33 @@
   set('#dDay', fmt({ day: 'numeric' }));
   set('#dMonth', `${fmt({ month: 'long' })} ${yy}`);
 
-  if (Array.isArray(C.letterAr) && C.letterAr.length) {
-    $('#letterBody').replaceChildren(...C.letterAr.map(t => Object.assign(document.createElement('p'), { textContent: t })));
+  // the invitation wording, venue card, programme and dress code
+  if (C.familiesAr) { set('#famA', C.familiesAr[0]); set('#famB', C.familiesAr[1]); }
+  set('#whenAr', C.whenAr);
+  set('#vName2', C.venueAr); set('#vEn', C.venueEn); set('#vAddr', C.addressAr);
+  set('#vArrive', C.timeAr);
+  set('#vDate', `${fmt({ weekday: 'long' })} ${fmt({ day: 'numeric' })} ${fmt({ month: 'long' })}`);
+  set('#attireTitle', C.attireAr); set('#attireNote', C.attireNoteAr);
+  if (C.lat && C.lng) $('#appleBtn').href = `https://maps.apple.com/?q=${encodeURIComponent(C.venueEn || C.venueAr)}&ll=${C.lat},${C.lng}`;
+  else $('#appleBtn').hidden = true;
+  if (Array.isArray(C.programme)) {
+    $('#menu').replaceChildren(...C.programme.map(([t, what, sub]) => {
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="m-time" dir="ltr"></span><span class="m-dots" aria-hidden="true"></span><span class="m-what"><b></b><em></em></span>';
+      li.querySelector('.m-time').textContent = t;
+      li.querySelector('b').textContent = what;
+      li.querySelector('em').textContent = sub || '';
+      return li;
+    }));
+  }
+  if (Array.isArray(C.palette)) {
+    $('#palette').replaceChildren(...C.palette.map(([c, name]) => {
+      const li = document.createElement('li');
+      li.innerHTML = '<i></i><span></span>';
+      li.querySelector('i').style.setProperty('--c', c);
+      li.querySelector('span').textContent = name;
+      return li;
+    }));
   }
   if (C.photo) {
     const img = $('#ovalPhoto');
@@ -52,7 +77,7 @@
   }
 
   set('.js-gAr', C.groomAr); set('.js-bAr', C.brideAr);
-  set('#cardDate', `${dd} · ${mm} · ${yy}`); set('#footDate', `${dd} · ${mm} · ${yy}`);
+  ['#cardDate', '#footDate', '#stubDate'].forEach(id => set(id, `${dd} · ${mm} · ${yy}`));
 
   /* ── 2 · the garland: Edison bulbs on a twisted wire, wrapped in eucalyptus ── */
   (function garland() {
@@ -123,15 +148,11 @@
   async function openEnvelope() {
     if (stage) return; stage = 1;
     root.classList.add('opening');
-    hint.style.opacity = 0;
-    await wait(320);  root.classList.add('flap-open');
-    await wait(460);  root.classList.add('flap-behind');
-    await wait(400);  root.classList.add('card-up');
-    await wait(1050); root.classList.add('card-out');
-    await wait(500);
-    hint.textContent = 'اضغط على البطاقة لفتح الدعوة'; hint.style.opacity = 1;
-    card.tabIndex = 0; card.focus({ preventScroll: true });
-    stage = 2;
+    await wait(300);  root.classList.add('flap-open');      // flap swings out toward the guest
+    await wait(1250); root.classList.add('flap-done');
+    root.classList.add('card-up');                           // the card slides up out of the pocket
+    await wait(1200); root.classList.add('card-out');
+    await wait(900);  stage = 2; enter();                    // …and the invitation opens on its own
   }
   async function enter() {
     if (stage !== 2) return; stage = 3;
@@ -141,14 +162,13 @@
     await wait(450);  root.classList.add('revealed');
     await wait(1800);
     cover.remove();
-    root.classList.remove('opening', 'flap-open', 'flap-behind', 'card-up', 'card-out', 'unveil');
+    root.classList.remove('opening', 'flap-open', 'flap-done', 'card-up', 'card-out', 'unveil');
   }
   $('#seal').addEventListener('click', openEnvelope);
   $('#envelope').addEventListener('click', e => { if (!e.target.closest('#card')) openEnvelope(); });
-  card.addEventListener('click', enter);
   document.addEventListener('keydown', e => {
     if (stage === 3 || !(e.key === 'Enter' || e.key === ' ')) return;
-    e.preventDefault(); stage === 0 ? openEnvelope() : enter();
+    e.preventDefault(); openEnvelope();
   });
   if (!root.classList.contains('sealed')) root.classList.add('revealed');
 
@@ -229,6 +249,7 @@
     }
   });
   $('#fName').addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); $('#eName').textContent = ''; });
+  $('#fPhone').addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); $('#ePhone').textContent = ''; });
 
   const live = !!(DB.url && DB.key);
   const KEY = 'ma-rsvp';
@@ -253,12 +274,14 @@
     const name = $('#fName').value.trim().replace(/\s+/g, ' ');
     const att  = (form.querySelector('[name=attending]:checked') || {}).value;
     const note = $('#fNote').value.trim();
+    const phone = $('#fPhone').value.trim().replace(/[^\d+]/g, '');
     let ok = true;
+    if (phone.replace(/\D/g, '').length < 9) { $('#ePhone').textContent = 'اكتب رقم هاتف صحيح'; $('#fPhone').setAttribute('aria-invalid', 'true'); ok = false; }
     if (name.length < 2) { $('#eName').textContent = 'اكتب اسمك من فضلك'; $('#fName').setAttribute('aria-invalid', 'true'); ok = false; }
     if (!att) { $('#eAtt').textContent = 'اختر أحد الخيارين'; ok = false; }
-    if (!ok) { (name.length < 2 ? $('#fName') : form.querySelector('[name=attending]')).focus(); return; }
+    if (!ok) { (form.querySelector('[aria-invalid=true]') || form.querySelector('[name=attending]')).focus(); return; }
 
-    const row = { name, attending: att, guests: att === 'yes' ? guests : 0, note: note || null };
+    const row = { name, phone, attending: att, guests: att === 'yes' ? guests : 0, note: note || null };
     send.disabled = true; send.textContent = 'جارٍ الإرسال…'; status.textContent = '';
 
     try {
@@ -279,7 +302,7 @@
     } catch (err) {
       // never lose a reply: hand it to WhatsApp if the network call failed
       if (C.whatsapp) {
-        const msg = `RSVP — ${name}: ${att === 'yes' ? `سأحضر (${row.guests})` : 'أعتذر'}${note ? ` — ${note}` : ''}`;
+        const msg = `RSVP — ${name} (${phone}): ${att === 'yes' ? `سأحضر (${row.guests})` : 'أعتذر'}${note ? ` — ${note}` : ''}`;
         status.innerHTML = '';
         const a = Object.assign(document.createElement('a'), {
           href: `https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`, target: '_blank', rel: 'noopener',
