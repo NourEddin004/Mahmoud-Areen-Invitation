@@ -68,9 +68,21 @@ while y < HORIZON - 40:
     y += 2.2 + 3.5 * (1 - dens)
 add(f'<path d="{"".join(sky)}" stroke="{MID}" stroke-width=".45" opacity=".55" fill="none"/>')
 
-# a few birds, far away
-for bx, by, s in [(250, 120, 1), (268, 112, .8), (238, 131, .7)]:
-    add(f'<path d="M{bx} {by}q{4*s} {-4*s} {8*s} 0q{4*s} {-4*s} {8*s} 0" stroke="{DEEP}" stroke-width=".8" fill="none"/>')
+# birds: real silhouettes, flapping as they cross the sky (CSS in <style>)
+def bird(cls, x, y, sc, delay, dur):
+    wing = "M0 0C-3 -5 -9 -8 -16 -7C-12 -5 -8 -2 -6 1C-4 0 -2 0 0 0Z"
+    return (f'<g class="fly" style="animation-duration:{dur}s;animation-delay:{delay}s">'
+            f'<g transform="translate({x} {y}) scale({sc})">'
+            f'<ellipse rx="5.5" ry="1.7" fill="{INK}"/>'
+            f'<path d="M5 -.5C6.5 -1.6 8 -1.2 8.5 0L5 .8Z" fill="{INK}"/>'
+            f'<path d="M-5 0L-9 -1.6L-8.6 1.4Z" fill="{INK}"/>'
+            f'<g class="wing"><path d="{wing}" fill="{INK}"/></g>'
+            f'<g class="wing w2"><path d="{wing}" transform="scale(-1 1)" fill="{DEEP}" opacity=".85"/></g>'
+            f'</g></g>')
+BIRDS = (bird("a", -30, 118, .9, 0, 46) + bird("b", -60, 104, .7, -9, 52) + bird("c", -10, 140, .6, -20, 58)
+         + bird("d", -45, 92, .55, -31, 64))
+
+add(BIRDS)
 
 # ── distant hills ────────────────────────────────────────────────────
 def ridge(base, amp, step, seed, color, op, hatch=None):
@@ -169,37 +181,74 @@ add(f'<path d="{"".join(wl)}" stroke="{DEEP}" stroke-width=".5" opacity=".42" fi
 add(f'<path d="M0 {HORIZON+1}H{W}" stroke="{INK}" stroke-width=".6" opacity=".45"/>')
 
 # ── swans ────────────────────────────────────────────────────────────
-# The left swan is drawn facing right; the right one is its mirror.
-# Origin (0,0) sits on the waterline at the centre between them.
-SWAN_BODY = ("M-104 -20C-112 -30 -110 -44 -100 -48C-96 -36 -88 -32 -78 -34"
-             "C-66 -46 -46 -46 -34 -36C-26 -30 -20 -24 -18 -16C-17 -8 -24 -2 -36 0"
-             "L-86 0C-96 -2 -104 -10 -104 -20Z")
-SWAN_NECK = ("M-30 -30C-48 -52 -56 -86 -42 -108C-30 -126 -8 -122 -4 -104"
-             "C-2 -98 0 -92 1 -86L-1 -84C-6 -90 -10 -96 -12 -102"
-             "C-18 -116 -32 -112 -36 -100C-42 -82 -34 -54 -20 -34Z")
-SWAN_HEAD = "M-4 -104C-1 -100 2 -94 1 -86L-3 -88C-5 -94 -7 -98 -9 -101Z"   # dark beak
-WING = ("M-90 -32C-80 -44 -60 -50 -44 -42M-86 -24C-74 -36 -56 -40 -42 -32"
-        "M-80 -14C-68 -24 -54 -26 -40 -20M-98 -30L-92 -22M-70 -10C-60 -14 -50 -14 -40 -10")
+# Mute swans with arched ("busking") wings. The left swan faces right;
+# the right one is its mirror. (0,0) is the waterline between them.
+SWAN_BODY = ("M-22 -14C-22 -6 -28 -1 -38 0L-96 -1C-104 -3 -110 -8 -116 -19"
+             "C-110 -17 -106 -18 -103 -22C-101 -38 -90 -52 -72 -54"
+             "C-57 -56 -44 -47 -36 -35C-30 -28 -24 -22 -22 -14Z")
+# folded wing sitting inside the body, with a scalloped feather edge
+WING_IN = ("M-102 -22C-99 -38 -88 -49 -71 -49C-58 -49 -48 -42 -43 -33"
+           "C-47 -29 -51 -30 -54 -27C-58 -30 -62 -28 -65 -25C-69 -28 -73 -26 -76 -23"
+           "C-80 -26 -84 -24 -87 -21C-91 -24 -95 -22 -98 -19C-100 -21 -101 -21 -102 -22Z")
+FEATHERS = ("M-96 -30C-90 -36 -82 -40 -74 -40M-92 -38C-84 -44 -74 -46 -64 -44"
+            "M-86 -24C-80 -30 -72 -33 -64 -32M-76 -20C-70 -25 -62 -27 -55 -26"
+            "M-108 -16C-104 -14 -100 -12 -96 -10M-104 -8C-98 -6 -92 -5 -86 -4"
+            "M-60 -6C-52 -8 -44 -8 -36 -6")
+SWAN_NECK = ("M-40 -30C-58 -58 -61 -94 -43 -112C-31 -124 -12 -122 -6 -108"
+             "C-5 -104 -6 -101 -9 -100C-11 -101 -14 -103 -17 -104"
+             "C-29 -108 -45 -93 -44 -76C-43 -58 -37 -45 -27 -32Z")
+BEAK = "M-8 -106C-4 -102 -1 -96 1 -89L-2 -88C-5 -93 -8 -98 -12 -101Z"
+KNOB = "M-12 -108C-9 -110 -6 -108 -6 -105L-9 -102C-11 -103 -13 -105 -12 -108Z"
 
 def swan(mirror):
     s = "scale(-1 1)" if mirror else ""
     return (f'<g transform="{s}">'
-            f'<path d="{SWAN_BODY}" fill="#F3EDDF" stroke="{INK}" stroke-width="1.1"/>'
-            f'<path d="{SWAN_NECK}" fill="#F3EDDF" stroke="{INK}" stroke-width="1.1"/>'
-            f'<path d="{WING}" fill="none" stroke="{MID}" stroke-width=".8"/>'
-            f'<path d="M-36 -36C-30 -26 -28 -14 -34 -4" fill="none" stroke="{LIGHT}" stroke-width="2.4" opacity=".7"/>'
-            f'<path d="{SWAN_HEAD}" fill="{INK}"/>'
-            f'<circle cx="-13" cy="-106" r="1.3" fill="{INK}"/>'
+            f'<path d="{SWAN_NECK}" fill="url(#plumeN)" stroke="{INK}" stroke-width="1"/>'
+            f'<path d="M-50 -64C-52 -80 -48 -96 -40 -104" fill="none" stroke="{LIGHT}" stroke-width="1.6" opacity=".8"/>'
+            f'<path d="{SWAN_BODY}" fill="url(#plume)" stroke="{INK}" stroke-width="1"/>'
+            f'<path d="{WING_IN}" fill="#F8F4EA" stroke="{DEEP}" stroke-width=".7"/>'
+            f'<path d="{FEATHERS}" fill="none" stroke="{MID}" stroke-width=".6"/>'
+            f'<path d="{BEAK}" fill="#B7773F" stroke="{INK}" stroke-width=".5"/>'
+            f'<path d="{KNOB}" fill="{INK}"/>'
+            f'<circle cx="-15" cy="-107" r="1.2" fill="{INK}"/>'
             f'</g>')
 
-SX, SY, SS = 200, 624, .9
+PLUME = ('<linearGradient id="plume" x1="0" y1="0" x2="0" y2="1">'
+         '<stop offset="0" stop-color="#FBF8F0"/><stop offset=".65" stop-color="#EFE7D6"/><stop offset="1" stop-color="#C9BA98"/></linearGradient>'
+         '<linearGradient id="plumeN" x1="0" y1="0" x2="1" y2="0">'
+         '<stop offset="0" stop-color="#E6DCC6"/><stop offset=".5" stop-color="#FBF8F0"/><stop offset="1" stop-color="#EDE4D1"/></linearGradient>')
+STYLE = '''<style>
+.fly{ animation:fly 50s linear infinite } .wing{ transform-box:fill-box; transform-origin:100% 100%; animation:flap .9s ease-in-out infinite alternate }
+.w2{ transform-origin:0% 100% }
+.bob{ animation:bob 5s ease-in-out infinite } .bobR{ animation:bob 5s ease-in-out infinite reverse }
+.rip{ transform-box:fill-box; transform-origin:center; animation:rip 7.2s ease-out infinite; opacity:0 }
+@keyframes fly{ from{ transform:translate(0,0) } 50%{ transform:translate(230px,-14px) } to{ transform:translate(470px,4px) } }
+@keyframes flap{ from{ transform:scaleY(1) } to{ transform:scaleY(-.55) } }
+@keyframes bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-2.2px) } }
+@keyframes rip{ 0%{ transform:scale(.9); opacity:.55 } 100%{ transform:scale(2.2); opacity:0 } }
+@media (prefers-reduced-motion:reduce){ *{ animation:none !important } .rip{ opacity:.3 } }
+</style>
+'''
+parts[0] = parts[0].replace("</defs>", PLUME + STYLE + "</defs>")
+
+SX, SY, SS = 200, 626, .92
 pair = swan(False) + swan(True)
-# reflection
-add(f'<g transform="translate({SX} {SY+2}) scale({SS} {-SS*.8})" opacity=".28" filter="url(#ripple)">{pair}</g>')
-# ripples around them
-add(f'<g transform="translate({SX} {SY})" fill="none" stroke="{DEEP}" stroke-width=".7" opacity=".55">'
-    + "".join(f'<ellipse rx="{rx}" ry="{rx*.09:.1f}" cy="2"/>' for rx in (96, 120, 146)) + "</g>")
-add(f'<g id="swans" transform="translate({SX} {SY}) scale({SS})">{pair}</g>')
+RIPPLES = "".join(f'<ellipse class="rip" style="animation-delay:{d}s" rx="70" ry="6.5" cy="2"/>' for d in (0, 2.4, 4.8))
+add(f'<g transform="translate({SX} {SY})" fill="none" stroke="{DEEP}" stroke-width=".8">{RIPPLES}</g>')
+add(f'<g transform="translate({SX} {SY+2}) scale({SS} {-SS*.8})" opacity=".26" filter="url(#ripple)"><g class="bobR">{pair}</g></g>')
+add(f'<g transform="translate({SX} {SY}) scale({SS})"><g class="bob" id="swans">{pair}</g></g>')
+
+# standalone engraved pair for the venue + closing (assets/swans.svg)
+SWANS_ONLY = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-130 -140 260 168">'
+              f'<defs>{PLUME}<filter id="ripple" x="-5%" y="-5%" width="110%" height="110%">'
+              f'<feTurbulence type="fractalNoise" baseFrequency=".004 .18" numOctaves="1" seed="9"/>'
+              f'<feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter></defs>'
+              f'<path d="M-124 1H124" stroke="{MID}" stroke-width=".8" opacity=".6"/>'
+              + "".join(f'<path d="M{x} {y}h{w}" stroke="{MID}" stroke-width=".6" opacity=".45"/>' for x, y, w in
+                        [(-110, 7, 60), (-30, 6, 80), (60, 8, 50), (-90, 13, 50), (10, 14, 70), (-50, 20, 40), (30, 21, 30)])
+              + f'<g transform="translate(0 3) scale(1 -.55)" opacity=".22" filter="url(#ripple)">{pair}</g>'
+              + pair + '</svg>')
+(OUT.parent / "swans.svg").write_text(SWANS_ONLY)
 
 # ── reeds, foreground corners ────────────────────────────────────────
 reeds = []

@@ -3,3 +3,4 @@
 *.local.sql
 COUPLE-LINK.local.txt
 .claude/
+tools/_preview.html

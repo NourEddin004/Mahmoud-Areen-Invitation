@@ -12,35 +12,70 @@
 <link rel="icon" href="assets/seal.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Parisienne&display=swap">
+<link rel="stylesheet" href="style.css?v=4">
 <!-- the cover only exists when JS can open it; without JS the page is simply readable -->
 <script>document.documentElement.classList.add('js','sealed')</script>
-<script src="config.js?v=2"></script>
+<script src="config.js?v=3"></script>
 </head>
 <body>
 
 <!-- ═══════════════ 1 · THE ENVELOPE ═══════════════ -->
 <div class="cover" id="cover" aria-hidden="false">
-  <div class="env">
-    <div class="env__paper"></div>
-    <div class="env__to" id="envTo">
+  <div class="stage" id="stage">
+    <div class="stage__light" aria-hidden="true"></div>
+
+    <div class="stage__to">
       <span class="kicker">دعوة خاصة</span>
-      <span class="env__name" id="envName">إلى ضيفنا العزيز</span>
+      <span class="stage__name" id="envName">إلى ضيفنا العزيز</span>
     </div>
-    <div class="env__flap" aria-hidden="true">
-      <svg viewBox="0 0 400 300" preserveAspectRatio="none"><path d="M0 0H400L212 286Q200 296 188 286Z"/></svg>
+
+    <!-- a standing envelope: back · card · front pocket · flap -->
+    <div class="envelope" id="envelope">
+      <svg class="envelope__back" viewBox="0 0 300 200" aria-hidden="true">
+        <rect width="300" height="200" rx="5" fill="url(#liner)"/>
+        <rect width="300" height="200" rx="5" fill="url(#linerLeaves)" opacity=".55"/>
+      </svg>
+
+      <button class="card-mini" id="card" type="button" tabindex="-1" aria-label="افتح الدعوة">
+        <span class="card-mini__frame">
+          <span class="card-mini__kicker">دعوة زفاف</span>
+          <span class="card-mini__names"><span class="js-gAr">محمود</span> <i>&amp;</i> <span class="js-bAr">عرين</span></span>
+          <span class="card-mini__date" dir="ltr" id="cardDate">28 · 11 · 2026</span>
+          <span class="card-mini__cta">افتح الدعوة</span>
+        </span>
+      </button>
+
+      <svg class="envelope__pocket" viewBox="0 0 300 200" aria-hidden="true">
+        <path d="M0 6Q0 0 6 2L150 104L294 2Q300 0 300 6V195Q300 200 295 200H5Q0 200 0 195Z" fill="url(#paperFront)"/>
+        <path d="M0 200L134 96M300 200L166 96" stroke="#CDBFA2" stroke-width="1" opacity=".7"/>
+        <path d="M2 196L136 98Q150 90 164 98L298 196" fill="none" stroke="#fff" stroke-width="1" opacity=".55"/>
+        <path d="M6 2L150 104L294 2" fill="none" stroke="#BFAF8E" stroke-width=".8" opacity=".6"/>
+      </svg>
+
+      <div class="envelope__flap" id="flap">
+        <svg class="flap__front" viewBox="0 0 300 130" aria-hidden="true">
+          <path d="M3 0H297Q302 0 298 4L164 118Q150 128 136 118L2 4Q-2 0 3 0Z" fill="url(#paperFlap)"/>
+          <path d="M8 3L146 116Q150 119 154 116L292 3" fill="none" stroke="#fff" stroke-width="1" opacity=".6"/>
+        </svg>
+        <svg class="flap__back" viewBox="0 0 300 130" aria-hidden="true">
+          <path d="M3 0H297Q302 0 298 4L164 118Q150 128 136 118L2 4Q-2 0 3 0Z" fill="url(#liner)"/>
+          <path d="M3 0H297Q302 0 298 4L164 118Q150 128 136 118L2 4Q-2 0 3 0Z" fill="url(#linerLeaves)" opacity=".55"/>
+        </svg>
+      </div>
+
+      <button class="seal" id="seal" type="button" aria-label="افتح الظرف">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sealArt"/></svg>
+      </button>
+      <span class="envelope__shadow" aria-hidden="true"></span>
     </div>
-    <button class="seal" id="seal" type="button" aria-label="افتح الدعوة">
-      <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sealArt"/></svg>
-    </button>
-    <p class="env__hint" id="envHint">اضغط على الختم لفتح الدعوة</p>
+
+    <p class="stage__hint" id="envHint" aria-live="polite">اضغط على الختم لفتح الظرف</p>
   </div>
 
   <!-- the scalloped cartouche that opens onto the lake -->
   <svg class="reveal" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <path id="cartouche" d="M50 8C56 8 60 12 62 16C66 14 72 15 74 20C80 20 84 26 82 32C88 36 88 44 84 48C88 52 88 60 82 64C84 70 80 76 74 76C72 81 66 82 62 80C60 84 56 88 50 88C44 88 40 84 38 80C34 82 28 81 26 76C20 76 16 70 18 64C12 60 12 52 16 48C12 44 12 36 18 32C16 26 20 20 26 20C28 15 34 14 38 16C40 12 44 8 50 8Z"/>
       <mask id="hole"><rect width="100" height="100" fill="#fff"/><g class="reveal__hole"><use href="#cartouche" fill="#000"/></g></mask>
     </defs>
     <rect width="100" height="100" fill="var(--paper)" mask="url(#hole)"/>
@@ -55,7 +90,7 @@
     <img class="hero__art" src="assets/lake.svg" alt="" width="400" height="760">
     <div class="hero__veil"></div>
     <div class="hero__text">
-      <p class="hero__script" dir="ltr" lang="en"><span>Save</span><span>the</span><span>Date</span></p>
+      <p class="hero__script" dir="ltr" lang="en"><span>Save the</span><span>Date</span></p>
       <p class="hero__ar">احفظوا التاريخ</p>
       <p class="hero__date" dir="ltr" id="heroDate">18 · 06 · 2027</p>
     </div>
@@ -134,7 +169,7 @@
   <!-- ═══════════════ 6 · THE PLACE ═══════════════ -->
   <section class="venue sec" aria-labelledby="venueTitle">
     <h2 class="sec__title" id="venueTitle" data-reveal>المكان</h2>
-    <svg class="venue__icon" viewBox="0 0 120 70" aria-hidden="true" data-reveal><use href="#swanPair"/></svg>
+    <img class="venue__icon" src="assets/swans.svg" alt="" data-reveal>
     <p class="venue__name" id="vName" data-reveal>قاعة الحديقة</p>
     <p class="venue__city" id="vCity" data-reveal>عمّان</p>
     <div class="actions" data-reveal>
@@ -142,10 +177,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
         الموقع على الخريطة
       </a>
-      <button class="btn btn--ghost" id="calBtn" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>
-        أضِف الموعد إلى التقويم
-      </button>
     </div>
   </section>
 
@@ -206,16 +237,33 @@
 
   <!-- ═══════════════ 8 · CLOSING ═══════════════ -->
   <footer class="closing">
+    <svg class="closing__edge" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0V10Q20 24 40 10Q60 24 80 10Q100 24 120 10Q140 24 160 10Q180 24 200 10Q220 24 240 10Q260 24 280 10Q300 24 320 10Q340 24 360 10Q380 24 400 10V0Z"/></svg>
+    <div class="fireflies" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+    <figure class="night" aria-hidden="true">
+      <svg class="night__frame" viewBox="12 8 76 80" preserveAspectRatio="none"><use href="#cartouche"/></svg>
+      <div class="night__window">
+        <span class="night__moon"></span>
+        <span class="night__path"></span>
+        <img class="night__swans" src="assets/swans.svg" alt="">
+      </div>
+    </figure>
+
     <p class="latin-caps latin-caps--light" dir="ltr" lang="en">We can't wait<br>to celebrate with you</p>
     <p class="closing__ar">بانتظاركم لنحتفل معاً</p>
-    <p class="closing__mono" dir="ltr" lang="en" aria-label="Mahmoud and Areen"><span class="js-gi">M</span><i>&amp;</i><span class="js-bi">A</span></p>
-    <svg class="closing__swans" viewBox="0 0 120 70" aria-hidden="true"><use href="#swanPair"/></svg>
+    <p class="closing__date" dir="ltr" id="footDate">28 · 11 · 2026</p>
+
+    <div class="closing__sign">
+      <svg class="closing__seal" viewBox="0 0 120 120" aria-hidden="true"><use href="#sealArt"/></svg>
+      <p class="closing__names"><span class="js-gAr">محمود</span> &amp; <span class="js-bAr">عرين</span></p>
+    </div>
   </footer>
 </main>
 
 <!-- ═══════════════ shared drawings ═══════════════ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <path id="cartouche" d="M50 8C56 8 60 12 62 16C66 14 72 15 74 20C80 20 84 26 82 32C88 36 88 44 84 48C88 52 88 60 82 64C84 70 80 76 74 76C72 81 66 82 62 80C60 84 56 88 50 88C44 88 40 84 38 80C34 82 28 81 26 76C20 76 16 70 18 64C12 60 12 52 16 48C12 44 12 36 18 32C16 26 20 20 26 20C28 15 34 14 38 16C40 12 44 8 50 8Z"/>
     <!-- wax seal -->
     <radialGradient id="wax" cx="38%" cy="32%" r="75%">
       <stop offset="0" stop-color="#A9B898"/><stop offset=".45" stop-color="#7F9470"/><stop offset="1" stop-color="#55684A"/>
@@ -223,13 +271,24 @@
     <radialGradient id="waxIn" cx="60%" cy="65%" r="70%">
       <stop offset="0" stop-color="#7A8F6B"/><stop offset="1" stop-color="#93A684"/>
     </radialGradient>
+    <linearGradient id="paperFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F2E7"/><stop offset="1" stop-color="#ECE3D0"/></linearGradient>
+    <linearGradient id="paperFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4EEE1"/><stop offset="1" stop-color="#FBF8F1"/></linearGradient>
+    <linearGradient id="liner" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FA27F"/><stop offset="1" stop-color="#6F8461"/></linearGradient>
+    <pattern id="linerLeaves" width="36" height="36" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+      <g fill="none" stroke="#E7EEDD" stroke-width=".9" stroke-linecap="round">
+        <path d="M4 32C12 22 20 14 32 6"/>
+        <ellipse cx="11" cy="22" rx="4" ry="2.6" transform="rotate(-40 11 22)"/>
+        <ellipse cx="19" cy="15" rx="4" ry="2.6" transform="rotate(50 19 15)"/>
+        <ellipse cx="26" cy="10" rx="3.4" ry="2.2" transform="rotate(-40 26 10)"/>
+      </g>
+    </pattern>
     <symbol id="sealArt" viewBox="0 0 120 120">
       <path d="M60 4c8 0 12 4 19 5s13-1 17 6 2 12 6 18 10 9 10 17-6 11-6 18 5 12 1 18-11 6-16 10-6 11-14 14-12-2-19-1-12 6-19 3-7-9-13-13-13-3-17-10 1-12-2-18-9-10-8-18 7-10 9-17-1-13 5-18 12-3 18-7 7-9 15-9z" fill="url(#wax)"/>
       <circle cx="60" cy="61" r="38" fill="url(#waxIn)" stroke="#5C6F50" stroke-width="1.2" opacity=".95"/>
       <circle cx="60" cy="61" r="33" fill="none" stroke="#B8C6A8" stroke-width=".8" stroke-dasharray="1.5 2.5" opacity=".8"/>
       <!-- pressed into the wax: a light lip under a dark cut -->
-      <text x="60" y="75.2" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="40" fill="#C3D1B4" stroke="#C3D1B4" stroke-width="1.4" opacity=".75">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
-      <text x="60" y="74" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="40" fill="#3A4B31" stroke="#3A4B31" stroke-width="1.3" stroke-linejoin="round">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
+      <text x="60" y="75.2" text-anchor="middle" font-family="Parisienne, cursive" font-size="40" fill="#C3D1B4" stroke="#C3D1B4" stroke-width="1.4" opacity=".75">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
+      <text x="60" y="74" text-anchor="middle" font-family="Parisienne, cursive" font-size="40" fill="#3A4B31" stroke="#3A4B31" stroke-width="1.3" stroke-linejoin="round">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
       <path d="M30 34c8-10 22-15 34-14" fill="none" stroke="#DCE5D2" stroke-width="2.2" stroke-linecap="round" opacity=".45"/>
     </symbol>
 
@@ -251,18 +310,6 @@
       </g>
     </symbol>
 
-    <!-- two swans, line art -->
-    <symbol id="swanPair" viewBox="-60 -64 120 70">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <g id="swanL" transform="scale(.5)">
-          <path d="M-104 -20C-112 -30 -110 -44 -100 -48C-96 -36 -88 -32 -78 -34C-66 -46 -46 -46 -34 -36C-26 -30 -20 -24 -18 -16C-17 -8 -24 -2 -36 0L-86 0C-96 -2 -104 -10 -104 -20Z"/>
-          <path d="M-30 -30C-48 -52 -56 -86 -42 -108C-30 -126 -8 -122 -4 -104C-2 -98 0 -92 1 -86"/>
-          <path d="M-86 -24C-74 -36 -56 -40 -42 -32"/>
-        </g>
-        <use href="#swanL" transform="scale(-1 1)"/>
-        <path d="M-58 3h116" stroke-width="1" opacity=".6"/>
-      </g>
-    </symbol>
 
     <!-- tiny envelope stamp for the letter -->
     <symbol id="miniEnvelope" viewBox="0 0 64 52">
@@ -276,6 +323,6 @@
   </defs>
 </svg>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>
