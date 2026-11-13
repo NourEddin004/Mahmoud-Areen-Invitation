@@ -21,6 +21,7 @@ def f(x):  # compact numbers
 
 parts = []
 add = parts.append
+fx = []            # the few things that move: birds, ripples, the live swans
 
 # ── defs: hatch patterns + grain ─────────────────────────────────────
 add(f"""<defs>
@@ -82,7 +83,7 @@ def bird(cls, x, y, sc, delay, dur):
 BIRDS = (bird("a", -30, 118, .9, 0, 46) + bird("b", -60, 104, .7, -9, 52) + bird("c", -10, 140, .6, -20, 58)
          + bird("d", -45, 92, .55, -31, 64))
 
-add(BIRDS)
+fx.append(BIRDS)
 
 # ── distant hills ────────────────────────────────────────────────────
 def ridge(base, amp, step, seed, color, op, hatch=None):
@@ -234,9 +235,9 @@ parts[0] = parts[0].replace("</defs>", PLUME + STYLE + "</defs>")
 SX, SY, SS = 200, 626, .92
 pair = swan(False) + swan(True)
 RIPPLES = "".join(f'<ellipse class="rip" style="animation-delay:{d}s" rx="70" ry="6.5" cy="2"/>' for d in (0, 2.4, 4.8))
-add(f'<g transform="translate({SX} {SY})" fill="none" stroke="{DEEP}" stroke-width=".8">{RIPPLES}</g>')
-add(f'<g transform="translate({SX} {SY+2}) scale({SS} {-SS*.8})" opacity=".26" filter="url(#ripple)"><g class="bobR">{pair}</g></g>')
-add(f'<g transform="translate({SX} {SY}) scale({SS})"><g class="bob" id="swans">{pair}</g></g>')
+fx.append(f'<g transform="translate({SX} {SY})" fill="none" stroke="{DEEP}" stroke-width=".8">{RIPPLES}</g>')
+add(f'<g transform="translate({SX} {SY+2}) scale({SS} {-SS*.8})" opacity=".26" filter="url(#ripple)">{pair}</g>')
+fx.append(f'<g transform="translate({SX} {SY}) scale({SS})"><g class="bob" id="swans">{pair}</g></g>')
 
 # standalone engraved pair for the venue + closing (assets/swans.svg)
 SWANS_ONLY = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-130 -140 260 168">'
@@ -269,8 +270,10 @@ add(f'<path d="{"".join(reeds)}" stroke="{INK}" stroke-width=".9" fill="none" op
 # ── paper grain over everything ──────────────────────────────────────
 add(f'<rect width="{W}" height="{H}" filter="url(#grain)" fill="#000"/>')
 
-svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">'
-       + "".join(parts) + "</svg>")
+head = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">'
 OUT.parent.mkdir(parents=True, exist_ok=True)
-OUT.write_text(svg)
-print(f"wrote {OUT}  ({len(svg)//1024} KB)")
+# the painting: drawn once, rasterised to assets/lake.webp by tools/render.sh
+(OUT.parent / "lake-static.svg").write_text(head + "".join(parts) + "</svg>")
+# the moving layer: plain shapes only, no filters, so animating it is cheap
+(OUT.parent / "lake-fx.svg").write_text(head + "<defs>" + PLUME + STYLE + "</defs>" + "".join(fx) + "</svg>")
+print("wrote lake-static.svg + lake-fx.svg")

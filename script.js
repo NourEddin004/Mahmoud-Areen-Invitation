@@ -61,6 +61,7 @@
   if (C.photo) {
     const img = $('#ovalPhoto');
     img.src = C.photo; img.alt = `${C.groomAr} و${C.brideAr}`; img.classList.add('is-photo');
+    $('#ovalFx').remove();
   }
   if (C.rsvpBy) {
     const by = new Intl.DateTimeFormat('ar-JO-u-nu-latn', { day: 'numeric', month: 'long', timeZone: tz })
@@ -148,6 +149,7 @@
   async function openEnvelope() {
     if (stage) return; stage = 1;
     root.classList.add('opening');
+    window.__driftPaused = true;                             // give the phone every frame for the envelope
     await wait(300);  root.classList.add('flap-open');      // flap swings out toward the guest
     await wait(1250); root.classList.add('flap-done');
     root.classList.add('card-up');                           // the card slides up out of the pocket
@@ -162,6 +164,7 @@
     await wait(450);  root.classList.add('revealed');
     await wait(1800);
     cover.remove();
+    window.__driftPaused = false;
     root.classList.remove('opening', 'flap-open', 'flap-done', 'card-up', 'card-out', 'unveil');
   }
   $('#seal').addEventListener('click', openEnvelope);
@@ -192,6 +195,7 @@
     const leaves = Array.from({ length: N }, () => make(false));
     let last = performance.now();
     function frame(now) {
+      if (window.__driftPaused || document.hidden) { ctx.clearRect(0, 0, W, H); last = now; return requestAnimationFrame(frame); }
       const dt = Math.min(48, now - last) / 16.7; last = now;
       ctx.clearRect(0, 0, W, H);
       for (const l of leaves) {

@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Parisienne&display=swap">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=10">
 <!-- the cover only exists when JS can open it; without JS the page is simply readable -->
 <script>document.documentElement.classList.add('js','sealed')</script>
 <script src="config.js?v=7"></script>
@@ -39,7 +39,20 @@
         </span>
       </div>
 
-      <div class="env-pocket-wrap"><div class="env-pocket"></div></div>
+      <div class="env-pocket-wrap">
+        <div class="env-pocket"></div>
+        <svg class="env-creases" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 76L50 50L100 76" stroke="#fff" stroke-width="1.6" stroke-opacity=".9" transform="translate(0 -.15)"/>
+          <path d="M0 76L50 50L100 76" stroke="#A8936E" stroke-width="1" stroke-opacity=".35" transform="translate(0 .2)"/>
+          <!-- the flap's edge: a soft shadow just below it, a bright lip on it -->
+          <g class="flap-edge">
+            <path d="M0 0L50 50L100 0" stroke="#8C7651" stroke-width="7" stroke-opacity=".07" transform="translate(0 .9)"/>
+            <path d="M0 0L50 50L100 0" stroke="#8C7651" stroke-width="2.5" stroke-opacity=".16" transform="translate(0 .35)"/>
+            <path d="M0 0L50 50L100 0" stroke="#fff" stroke-width="1.2" stroke-opacity=".95"/>
+          </g>
+        </svg>
+      </div>
+      <div class="env-flap-shadow" aria-hidden="true"></div>
 
       <div class="env-flap" id="flap">
         <div class="env-flap__face env-flap__front"></div>
@@ -59,20 +72,19 @@
   </div>
 
   <!-- the scalloped cartouche that opens onto the lake -->
-  <svg class="reveal" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <mask id="hole"><rect width="100" height="100" fill="#fff"/><g class="reveal__hole"><use href="#cartouche" fill="#000"/></g></mask>
-    </defs>
-    <rect width="100" height="100" fill="var(--paper)" mask="url(#hole)"/>
-    <g class="reveal__hole"><use href="#cartouche" fill="none" stroke="var(--gold)" stroke-width=".6" vector-effect="non-scaling-stroke"/></g>
-  </svg>
+  <!-- the scalloped cartouche: just an outline that grows while the paper fades
+       (a scaled mask repainted the whole screen every frame and stuttered on phones) -->
+  <div class="reveal" aria-hidden="true">
+    <svg class="reveal__frame" viewBox="12 8 76 80" preserveAspectRatio="none"><use href="#cartouche"/></svg>
+  </div>
 </div>
 
 <main class="page" id="top">
 
   <!-- ═══════════════ 2 · SAVE THE DATE (the lake) ═══════════════ -->
   <header class="hero">
-    <img class="hero__art" src="assets/lake.svg" alt="" width="400" height="760">
+    <img class="hero__art" src="assets/lake.webp" alt="" width="400" height="760" decoding="async">
+    <img class="hero__art hero__fx" src="assets/lake-fx.svg" alt="" width="400" height="760">
     <div class="hero__veil"></div>
     <div class="hero__text">
       <p class="hero__script" dir="ltr" lang="en"><span>Save the</span><span>Date</span></p>
@@ -89,7 +101,7 @@
     <article class="wordcard" data-reveal>
       <figure class="oval">
         <svg class="oval__frame" viewBox="0 0 260 330" aria-hidden="true"><use href="#ovalFrame"/></svg>
-        <div class="oval__window"><img id="ovalPhoto" src="assets/lake.svg" alt="" class="oval__img"></div>
+        <div class="oval__window"><img id="ovalPhoto" src="assets/lake.webp" alt="" class="oval__img" loading="lazy"><img class="oval__img oval__fx" id="ovalFx" src="assets/lake-fx.svg" alt="" loading="lazy"></div>
       </figure>
 
       <p class="wc-verse">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
@@ -280,14 +292,27 @@
         <ellipse cx="26" cy="10" rx="3.4" ry="2.2" transform="rotate(-40 26 10)"/>
       </g>
     </pattern>
+    <radialGradient id="waxBody" cx="40%" cy="34%" r="72%">
+      <stop offset="0" stop-color="#C3CFB4"/><stop offset=".45" stop-color="#A2B290"/><stop offset=".85" stop-color="#83956F"/><stop offset="1" stop-color="#6E805C"/>
+    </radialGradient>
+    <radialGradient id="waxPool" cx="58%" cy="64%" r="70%">
+      <stop offset="0" stop-color="#9AAA87"/><stop offset="1" stop-color="#B2C0A1"/>
+    </radialGradient>
     <symbol id="sealArt" viewBox="0 0 120 120">
-      <path d="M60 4c8 0 12 4 19 5s13-1 17 6 2 12 6 18 10 9 10 17-6 11-6 18 5 12 1 18-11 6-16 10-6 11-14 14-12-2-19-1-12 6-19 3-7-9-13-13-13-3-17-10 1-12-2-18-9-10-8-18 7-10 9-17-1-13 5-18 12-3 18-7 7-9 15-9z" fill="url(#wax)"/>
-      <circle cx="60" cy="61" r="38" fill="url(#waxIn)" stroke="#5C6F50" stroke-width="1.2" opacity=".95"/>
-      <circle cx="60" cy="61" r="33" fill="none" stroke="#B8C6A8" stroke-width=".8" stroke-dasharray="1.5 2.5" opacity=".8"/>
-      <!-- pressed into the wax: a light lip under a dark cut -->
-      <text x="60" y="75.2" text-anchor="middle" font-family="Parisienne, cursive" font-size="40" fill="#C3D1B4" stroke="#C3D1B4" stroke-width="1.4" opacity=".75">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
-      <text x="60" y="74" text-anchor="middle" font-family="Parisienne, cursive" font-size="40" fill="#3A4B31" stroke="#3A4B31" stroke-width="1.3" stroke-linejoin="round">M<tspan font-size="24" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
-      <path d="M30 34c8-10 22-15 34-14" fill="none" stroke="#DCE5D2" stroke-width="2.2" stroke-linecap="round" opacity=".45"/>
+      <!-- the poured blob, uneven where the wax ran -->
+      <path d="M60 5c9 0 13 5 21 6 9 1 15-1 19 7 3 6 0 11 4 17 5 6 12 9 11 18-1 8-7 10-7 17 0 8 6 12 2 19-4 8-12 6-18 10-6 5-7 12-16 14-8 2-12-3-19-3-8 0-13 6-21 3-8-3-8-11-14-15-6-5-14-5-17-13-3-7 3-12 1-19-2-8-9-11-8-19 1-9 9-11 11-18 2-8-1-14 6-19 7-5 13-1 20-4 8-4 12-11 25-6z" fill="url(#waxBody)"/>
+      <!-- the raised rim left by the stamp -->
+      <circle cx="60" cy="61" r="39" fill="none" stroke="#7D8F69" stroke-width="5" opacity=".55"/>
+      <circle cx="60" cy="61" r="40.5" fill="none" stroke="#D3DDC7" stroke-width="1.2" opacity=".7"/>
+      <!-- the pressed face -->
+      <circle cx="60" cy="61" r="35.5" fill="url(#waxPool)"/>
+      <circle cx="60" cy="61" r="35.5" fill="none" stroke="#6E805C" stroke-width="1" opacity=".55"/>
+      <circle cx="60" cy="61" r="31" fill="none" stroke="#8C9C78" stroke-width=".7" opacity=".7"/>
+      <!-- monogram: a light lip under a dark cut, as a die leaves it -->
+      <text x="60" y="76" text-anchor="middle" font-family="Parisienne, cursive" font-size="36" fill="#D6E0CB" stroke="#D6E0CB" stroke-width="1.1" opacity=".85">M<tspan font-size="22" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
+      <text x="60" y="74.8" text-anchor="middle" font-family="Parisienne, cursive" font-size="36" fill="#5E7050" stroke="#5E7050" stroke-width=".9" stroke-linejoin="round">M<tspan font-size="22" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
+      <!-- sheen -->
+      <path d="M26 36c8-12 22-18 36-17" fill="none" stroke="#EEF3E7" stroke-width="3" stroke-linecap="round" opacity=".45"/>
     </symbol>
 
     <!-- filigree oval -->
@@ -321,6 +346,6 @@
   </defs>
 </svg>
 
-<script src="script.js?v=7"></script>
+<script src="script.js?v=8"></script>
 </body>
 </html>
