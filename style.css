@@ -83,7 +83,7 @@ a{ color:inherit }
   transition:opacity .8s var(--ease), visibility 0s .8s;
 }
 .unveil .stage{ opacity:0; visibility:hidden }
-.unveil .card-mini{ transform:translateY(-30%) scale(1.5); opacity:0; transition:transform .9s cubic-bezier(.4,0,.2,1), opacity .7s ease }
+
 /* slow, drifting window light */
 .opening .stage__to, .opening .stage__hint{ opacity:0 }
 .stage__light{ position:absolute; z-index:5; inset:-30%; pointer-events:none; opacity:.35; will-change:transform;
@@ -174,7 +174,7 @@ a{ color:inherit }
 /* the card waits in the pocket, rises, then fills the screen */
 .card-mini{
   will-change:transform;
-  position:absolute; z-index:2; left:9%; width:82%; top:30%; height:64%;
+  position:absolute; z-index:2; left:10%; width:80%; top:28%; height:64%;
   padding:9px; border-radius:3px; text-align:center; color:var(--ink);
   background:var(--paper-3);
   box-shadow:0 1px 0 rgba(94,77,51,.12), 0 14px 30px -14px rgba(60,48,30,.5);
@@ -182,16 +182,15 @@ a{ color:inherit }
 }
 .card-mini__frame{
   display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:.15rem;
-  height:100%; padding-top:12%;
+  height:100%; padding-top:9%;
   border:1px solid rgba(168,139,90,.55); outline:1px solid rgba(168,139,90,.25); outline-offset:-6px;
 }
 .card-mini__kicker{ font-size:.95rem; color:var(--sage-dk) }
 .card-mini__names{ font-family:var(--f-disp); font-size:2.1rem; color:var(--sepia); line-height:1.45 }
 .card-mini__names i{ font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.85em }
 .card-mini__date{ font-family:var(--f-latin); font-size:1.05rem; letter-spacing:.24em; color:var(--ink-soft); font-variant-numeric:var(--nums) }
-.card-mini__swans{ width:62%; margin-top:auto; margin-bottom:12% }
-.card-up  .card-mini{ transform:translateY(-38%) }
-.card-out .card-mini{ z-index:6; transform:translateY(-30%) scale(1.06) }
+/* only the top of the card slides out of the envelope; it never leaves the pocket */
+.card-up  .card-mini{ transform:translateY(-40%) }
 
 
 /* ═══════════════════════════ 2 · HERO ═══════════════════════════ */
