@@ -278,7 +278,6 @@ a{ color:inherit }
   display:flex; flex-direction:column; align-items:center;
 }
 .names .amp{ font-family:var(--f-script); color:var(--gold); font-size:.85em; line-height:.8; margin:.1em 0 -.1em }
-.names-en{ font-family:var(--f-script); font-size:1.9rem; color:var(--sage-dk); margin-top:.4rem }
 .fullnames{
   display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.2rem .7rem;
   margin:.9rem auto 0; padding-top:.9rem; max-width:320px;
@@ -424,19 +423,6 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 .amp-sm{ font-family:var(--f-script); color:var(--gold); font-size:1.4rem; margin:0 .2rem }
 .wc-body{ color:var(--ink-soft); font-size:1.05rem; margin-top:.2rem }
 .wordcard .names{ margin-top:.6rem; font-size:3rem }
-.wc-when{ margin-top:1.3rem; font-size:1.08rem; color:var(--ink); line-height:1.8 }
-.wc-time{ color:var(--ink-soft) }
-.wc-where{ margin-top:.5rem; font-family:var(--f-disp); font-size:1.35rem; color:var(--sepia) }
-
-/* ═══════════════════════ 4 · PROGRAMME ═══════════════════════ */
-.menu{ list-style:none; margin:1.8rem auto 0; padding:0; max-width:360px; display:grid; gap:1.1rem; text-align:right }
-.menu li{ display:flex; align-items:baseline; gap:.7rem }
-.m-time{ flex:none; font-family:var(--f-latin); font-size:1.5rem; font-weight:500; color:var(--sepia); font-variant-numeric:var(--nums); min-width:3.2rem; text-align:right }
-.m-dots{ flex:1; border-bottom:1.5px dotted rgba(94,77,51,.35); transform:translateY(-.35em); min-width:1rem }
-.m-what{ flex:none; max-width:62%; text-align:left; display:flex; flex-direction:column }
-.m-what b{ font-family:var(--f-disp); font-weight:400; font-size:1.25rem; color:var(--ink); line-height:1.4 }
-.m-what em{ font-style:normal; font-size:.92rem; color:var(--ink-soft); line-height:1.6 }
-.menu-note{ margin-top:1.2rem; font-size:.9rem; color:var(--ink-soft) }
 
 /* ═══════════════════════ 5 · COUNTDOWN ═══════════════════════ */
 .countdown{ padding-top:1rem; padding-bottom:3rem }
@@ -465,16 +451,6 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 .v-notes b{ font-size:.85rem; font-weight:400; color:var(--sage-dk) }
 .v-notes span{ font-size:1.02rem; color:var(--ink) }
 .venue-card .actions{ margin-top:1.4rem }
-
-/* ═══════════════════════ 7 · ATTIRE ═══════════════════════ */
-.attire{ padding-top:2rem }
-.attire__lede{ color:var(--ink-soft); margin-top:.3rem }
-.palette{ list-style:none; padding:0; margin:1.6rem auto 0; max-width:340px; display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem .6rem }
-.palette li{ display:flex; flex-direction:column; align-items:center; gap:.4rem }
-.palette i{ width:54px; height:54px; border-radius:50%; background:var(--c);
-  box-shadow:inset 0 -6px 12px rgba(0,0,0,.12), inset 0 4px 8px rgba(255,255,255,.35), 0 0 0 1px rgba(94,77,51,.15), 0 0 0 5px var(--paper), 0 0 0 6px rgba(168,139,90,.35) }
-.palette span{ font-size:.92rem; color:var(--ink-soft) }
-.attire__note{ margin-top:1.6rem; font-size:.98rem; color:var(--sepia) }
 
 /* ═══════════════════════ 8 · RSVP ticket ═══════════════════════ */
 .ticket{
@@ -571,9 +547,6 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 .closing__ar{ font-family:var(--f-disp); font-size:2rem; line-height:1.5; margin-top:.5rem; color:#F1E6CB }
 .closing__date{ font-family:var(--f-latin); font-size:1.05rem; letter-spacing:.3em; padding-left:.3em; margin-top:.4rem;
   color:#D9C48F; font-variant-numeric:var(--nums) }
-.closing__sign{ margin-top:2.2rem; display:flex; flex-direction:column; align-items:center; gap:.5rem }
-.closing__seal{ width:64px; filter:drop-shadow(0 6px 10px rgba(0,0,0,.35)) }
-.closing__names{ font-family:var(--f-disp); font-size:1.15rem; color:rgba(237,228,207,.8) }
 
 /* ═══════════════════════════ scroll reveals ═══════════════════════════ */
 .js [data-reveal]{ opacity:0; transform:translateY(16px); transition:opacity .9s var(--ease), transform .9s var(--ease) }

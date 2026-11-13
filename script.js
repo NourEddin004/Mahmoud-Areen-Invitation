@@ -13,11 +13,10 @@
   /* ── 1 · fill the page from config ─────────────────────────────── */
   const set = (sel, v) => { if (v != null) $$(sel).forEach(n => (n.textContent = v)); };
   set('#groomAr', C.groomAr); set('#brideAr', C.brideAr);
-  set('#groomEn', C.groomEn); set('#brideEn', C.brideEn);
   set('#groomFull', C.groomFullAr); set('#brideFull', C.brideFullAr);
   set('.js-groomEn', C.groomEn); set('.js-brideEn', C.brideEn);
   set('.js-gi', (C.groomEn || 'M')[0]); set('.js-bi', (C.brideEn || 'A')[0]);
-  set('#dTime', C.timeAr); set('#vName', C.venueAr); set('#vCity', C.cityAr);
+  set('#vName', C.venueAr); set('#vCity', C.cityAr);
   if (C.groomAr) document.title = `${C.groomAr} & ${C.brideAr} — دعوة زفاف`;
   if (C.mapUrl) $('#mapBtn').href = C.mapUrl;
 
@@ -30,34 +29,11 @@
   set('#dDay', fmt({ day: 'numeric' }));
   set('#dMonth', `${fmt({ month: 'long' })} ${yy}`);
 
-  // the invitation wording, venue card, programme and dress code
+  // the invitation wording and venue card
   if (C.familiesAr) { set('#famA', C.familiesAr[0]); set('#famB', C.familiesAr[1]); }
-  set('#whenAr', C.whenAr);
   set('#vName2', C.venueAr); set('#vEn', C.venueEn); set('#vAddr', C.addressAr);
   set('#vArrive', C.timeAr);
   set('#vDate', `${fmt({ weekday: 'long' })} ${fmt({ day: 'numeric' })} ${fmt({ month: 'long' })}`);
-  set('#attireTitle', C.attireAr); set('#attireNote', C.attireNoteAr);
-  if (C.lat && C.lng) $('#appleBtn').href = `https://maps.apple.com/?q=${encodeURIComponent(C.venueEn || C.venueAr)}&ll=${C.lat},${C.lng}`;
-  else $('#appleBtn').hidden = true;
-  if (Array.isArray(C.programme)) {
-    $('#menu').replaceChildren(...C.programme.map(([t, what, sub]) => {
-      const li = document.createElement('li');
-      li.innerHTML = '<span class="m-time" dir="ltr"></span><span class="m-dots" aria-hidden="true"></span><span class="m-what"><b></b><em></em></span>';
-      li.querySelector('.m-time').textContent = t;
-      li.querySelector('b').textContent = what;
-      li.querySelector('em').textContent = sub || '';
-      return li;
-    }));
-  }
-  if (Array.isArray(C.palette)) {
-    $('#palette').replaceChildren(...C.palette.map(([c, name]) => {
-      const li = document.createElement('li');
-      li.innerHTML = '<i></i><span></span>';
-      li.querySelector('i').style.setProperty('--c', c);
-      li.querySelector('span').textContent = name;
-      return li;
-    }));
-  }
   if (C.photo) {
     const img = $('#ovalPhoto');
     img.src = C.photo; img.alt = `${C.groomAr} و${C.brideAr}`; img.classList.add('is-photo');
