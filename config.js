@@ -14,17 +14,22 @@ window.INVITE = {
   brideAr : 'عرين',
   groomEn : 'Mahmoud',
   brideEn : 'Areen',
+  // full names — shown in small type under the big first names
+  groomFullAr: 'محمود جواد صالح',
+  brideFullAr: 'عرين وجيه شهوان',
+  groomFullEn: 'Mahmoud Jawad Saleh',
+  brideFullEn: 'Areen Wajeeh Shahwan',
 
   // ── the day ───────────────────────────────────────────────────────
   // ISO date-time in Jordan time (+03:00). Drives the date block,
   // the countdown and the "add to calendar" file.
-  date    : '2027-06-18T19:30:00+03:00',
-  timeAr  : 'السابعة والنصف مساءً',
+  date    : '2026-11-28T17:00:00+03:00',   // Saturday 28 Nov 2026, 5 PM (guests arrive)
+  timeAr  : 'الخامسة مساءً',
 
   // ── the place ─────────────────────────────────────────────────────
-  venueAr : 'قاعة الحديقة',
-  cityAr  : 'عمّان',
-  mapUrl  : 'https://maps.google.com/?q=Amman',
+  venueAr : 'منتجع موفنبيك البحر الميت',
+  cityAr  : 'البحر الميت — الأردن',
+  mapUrl  : 'https://maps.app.goo.gl/6iPR6n12V6eGU8RT8',
 
   // ── the letter (keep it short — three or four lines read best) ────
   letterAr: [
@@ -37,7 +42,7 @@ window.INVITE = {
   photo   : '',
 
   // ── RSVP ──────────────────────────────────────────────────────────
-  rsvpBy  : '2027-06-01',   // shown under the form; '' hides it
+  rsvpBy  : '',             // e.g. '2026-11-22' — shown under the form; '' hides it
   maxGuests: 5,             // the stepper's ceiling (incl. the guest)
   whatsapp: '',             // e.g. '9627XXXXXXXX' — fallback if the network call fails
 };

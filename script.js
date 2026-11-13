@@ -14,6 +14,7 @@
   const set = (sel, v) => { if (v != null) $$(sel).forEach(n => (n.textContent = v)); };
   set('#groomAr', C.groomAr); set('#brideAr', C.brideAr);
   set('#groomEn', C.groomEn); set('#brideEn', C.brideEn);
+  set('#groomFull', C.groomFullAr); set('#brideFull', C.brideFullAr);
   set('.js-groomEn', C.groomEn); set('.js-brideEn', C.brideEn);
   set('.js-gi', (C.groomEn || 'M')[0]); set('.js-bi', (C.brideEn || 'A')[0]);
   set('#dTime', C.timeAr); set('#vName', C.venueAr); set('#vCity', C.cityAr);
@@ -139,7 +140,7 @@
       'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//invite//AR', 'BEGIN:VEVENT',
       `UID:${z(when)}-${(C.groomEn || 'g').toLowerCase()}@invite`, `DTSTAMP:${z(new Date())}`,
       `DTSTART:${z(when)}`, `DTEND:${z(end)}`,
-      `SUMMARY:${esc(`زفاف ${C.groomAr} و${C.brideAr}`)}`,
+      `SUMMARY:${esc(`زفاف ${C.groomFullAr || C.groomAr} و${C.brideFullAr || C.brideAr}`)}`,
       `LOCATION:${esc(`${C.venueAr}، ${C.cityAr}`)}`,
       `DESCRIPTION:${esc(C.mapUrl || '')}`,
       'BEGIN:VALARM', 'TRIGGER:-PT3H', 'ACTION:DISPLAY', 'DESCRIPTION:Reminder', 'END:VALARM',
