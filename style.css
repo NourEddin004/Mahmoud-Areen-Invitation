@@ -489,8 +489,6 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 .ticket__body .form, .ticket__body .thanks{ text-align:right; margin-top:1.3rem }
 .ticket__body .thanks{ text-align:center }
 .hint{ font-size:.86rem; color:var(--ink-soft); margin-top:.3rem }
-input[type=tel]{ text-align:right }
-input[type=tel]:placeholder-shown{ text-align:right }
 ::placeholder{ color:rgba(106,93,71,.55) }
 
 /* ═══════════════════════════ 8 · CLOSING ═══════════════════════════

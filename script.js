@@ -249,7 +249,6 @@
     }
   });
   $('#fName').addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); $('#eName').textContent = ''; });
-  $('#fPhone').addEventListener('input', e => { e.target.removeAttribute('aria-invalid'); $('#ePhone').textContent = ''; });
 
   const live = !!(DB.url && DB.key);
   const KEY = 'ma-rsvp';
@@ -274,14 +273,12 @@
     const name = $('#fName').value.trim().replace(/\s+/g, ' ');
     const att  = (form.querySelector('[name=attending]:checked') || {}).value;
     const note = $('#fNote').value.trim();
-    const phone = $('#fPhone').value.trim().replace(/[^\d+]/g, '');
     let ok = true;
-    if (phone.replace(/\D/g, '').length < 9) { $('#ePhone').textContent = 'اكتب رقم هاتف صحيح'; $('#fPhone').setAttribute('aria-invalid', 'true'); ok = false; }
     if (name.length < 2) { $('#eName').textContent = 'اكتب اسمك من فضلك'; $('#fName').setAttribute('aria-invalid', 'true'); ok = false; }
     if (!att) { $('#eAtt').textContent = 'اختر أحد الخيارين'; ok = false; }
     if (!ok) { (form.querySelector('[aria-invalid=true]') || form.querySelector('[name=attending]')).focus(); return; }
 
-    const row = { name, phone, attending: att, guests: att === 'yes' ? guests : 0, note: note || null };
+    const row = { name, attending: att, guests: att === 'yes' ? guests : 0, note: note || null };
     send.disabled = true; send.textContent = 'جارٍ الإرسال…'; status.textContent = '';
 
     try {
@@ -302,7 +299,7 @@
     } catch (err) {
       // never lose a reply: hand it to WhatsApp if the network call failed
       if (C.whatsapp) {
-        const msg = `RSVP — ${name} (${phone}): ${att === 'yes' ? `سأحضر (${row.guests})` : 'أعتذر'}${note ? ` — ${note}` : ''}`;
+        const msg = `RSVP — ${name}: ${att === 'yes' ? `سأحضر (${row.guests})` : 'أعتذر'}${note ? ` — ${note}` : ''}`;
         status.innerHTML = '';
         const a = Object.assign(document.createElement('a'), {
           href: `https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`, target: '_blank', rel: 'noopener',

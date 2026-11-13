@@ -14,7 +14,7 @@ Personal links also work: `/?to=أبو خالد` writes the guest's name on the 
 Follows the client's "The Arch" invitation, redrawn in this design:
 envelope (opens on its own after the card rises) → Save the Date lake →
 engraved invitation wording → programme → countdown → venue card →
-dress code → ticket-style RSVP (name, phone, attendance, guests, note) → moonlit footer.
+dress code → ticket-style RSVP (name, attendance, guests, note) → moonlit footer.
 
 ⚠️ The programme times and the dress code in `config.js` are **samples** until the couple confirms them.
 

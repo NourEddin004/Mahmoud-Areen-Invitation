@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:wght@400;500&family=Parisienne&display=swap">
-<script src="../config.js?v=6"></script>
+<script src="../config.js?v=7"></script>
 <style>
 :root{
   --paper:#EFE9DC; --paper-3:#FBF8F1; --ink:#3B3122; --ink-soft:#6A5D47; --sepia:#5E4D33;
@@ -94,9 +94,8 @@ button,input,textarea{ font:inherit; color:inherit }
 }
 .row__name{ font-weight:700; font-size:1.05rem; line-height:1.5; word-break:break-word }
 .row__meta{ grid-column:1; font-size:.85rem; color:var(--ink-soft) }
-.row__phone{ grid-column:1; font-size:.92rem; color:var(--sage-dk); text-decoration:none; direction:ltr; justify-self:start; font-family:'Cormorant Garamond',serif; font-weight:500; letter-spacing:.04em; font-variant-numeric:lining-nums tabular-nums }
 .row__note{ grid-column:1/-1; margin:6px 0 0; padding:8px 12px; border-radius:8px; background:var(--paper); font-size:.95rem; color:var(--ink-soft); font-style:normal }
-.row__side{ grid-row:1/4; grid-column:2; display:flex; align-items:center; gap:4px }
+.row__side{ grid-row:1/3; grid-column:2; display:flex; align-items:center; gap:4px }
 .badge{
   display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 10px; border-radius:20px;
   font-size:.85rem; white-space:nowrap;
@@ -144,7 +143,7 @@ button,input,textarea{ font:inherit; color:inherit }
 .sheet h2{ margin:0 0 12px; font-family:'Aref Ruqaa',serif; font-weight:400; font-size:1.5rem; color:var(--sepia); text-align:center }
 .field{ margin-bottom:14px; border:0; padding:0 }
 .field > label, .field legend{ display:block; font-weight:700; margin-bottom:6px; padding:0 }
-.field input[type=text], .field input[type=tel], .field textarea{
+.field input[type=text], .field textarea{
   width:100%; min-height:var(--ctl); padding:10px 12px; border-radius:var(--r); border:1px solid rgba(94,77,51,.25); background:#fff; font-size:1rem;
 }
 .pick{ display:grid; grid-template-columns:1fr 1fr; gap:8px }
@@ -244,7 +243,7 @@ button,input,textarea{ font:inherit; color:inherit }
   <div class="tools">
     <label class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="ابحث باسم أو رقم…" aria-label="ابحث باسم أو رقم">
+      <input id="q" type="search" placeholder="ابحث عن اسم…" aria-label="ابحث عن اسم">
     </label>
     <div class="seg" role="group" aria-label="تصفية">
       <button type="button" data-f="all" aria-pressed="true">الكل<span class="num" id="nAll"></span></button>
@@ -281,10 +280,6 @@ button,input,textarea{ font:inherit; color:inherit }
     <label for="aName">الاسم</label>
     <input id="aName" type="text" maxlength="80" autocomplete="off">
     <p class="err" id="aErr"></p>
-  </div>
-  <div class="field">
-    <label for="aPhone">رقم الهاتف <small>(اختياري)</small></label>
-    <input id="aPhone" type="tel" inputmode="tel" maxlength="20" dir="ltr" autocomplete="off" placeholder="079 123 4567">
   </div>
   <fieldset class="field">
     <legend>الرد</legend>
@@ -358,14 +353,14 @@ button,input,textarea{ font:inherit; color:inherit }
   });
 
   const SAMPLE = [
-    ['أحمد وعائلته', 'yes', 4, 'ألف مبروك، الله يتمم على خير 🤍', 2, '0791234567'],
-    ['ليلى حداد', 'yes', 2, '', 5, '0785551234'],
-    ['خالد العمري', 'no', 0, 'مسافر للأسف، مبارك من القلب', 9, '0779876543'],
-    ['سارة ومحمد', 'yes', 2, '', 20, '0790001122'],
-    ['أبو يوسف', 'yes', 5, 'بانتظار الفرحة', 30, '0796543210'],
-    ['رنا الخطيب', 'no', 0, '', 49, '0781112233'],
-    ['عمر ناصر', 'yes', 1, '', 70, '0773334455'],
-  ].map(([name, attending, guests, note, h, phone], i) => ({ id: i + 1, name, phone, attending, guests, note, created_at: new Date(Date.now() - h * 36e5).toISOString() }));
+    ['أحمد وعائلته', 'yes', 4, 'ألف مبروك، الله يتمم على خير 🤍', 2],
+    ['ليلى حداد', 'yes', 2, '', 5],
+    ['خالد العمري', 'no', 0, 'مسافر للأسف، مبارك من القلب', 9],
+    ['سارة ومحمد', 'yes', 2, '', 20],
+    ['أبو يوسف', 'yes', 5, 'بانتظار الفرحة', 30],
+    ['رنا الخطيب', 'no', 0, '', 49],
+    ['عمر ناصر', 'yes', 1, '', 70],
+  ].map(([name, attending, guests, note, h], i) => ({ id: i + 1, name, attending, guests, note, created_at: new Date(Date.now() - h * 36e5).toISOString() }));
 
   async function load() {
     if (!live) { rows = SAMPLE.slice(); $('#demo').hidden = false; return true; }
@@ -397,12 +392,11 @@ button,input,textarea{ font:inherit; color:inherit }
 
     const q = norm(query.trim());
     const view = rows.filter(r => (filter === 'all' || (filter === 'yes' ? r.attending === 'yes' : r.attending !== 'yes'))
-      && (!q || norm(r.name).includes(q) || norm(r.note || '').includes(q) || String(r.phone || '').includes(q.replace(/\s/g, ''))));
+      && (!q || norm(r.name).includes(q) || norm(r.note || '').includes(q)));
 
     $('#list').innerHTML = view.map(r => `
       <li class="row">
         <span class="row__name">${esc(r.name)}</span>
-        ${r.phone ? `<a class="row__phone" href="tel:${esc(r.phone)}">${esc(r.phone)}</a>` : ''}
         <span class="row__meta">${ago(r.created_at)}</span>
         <span class="row__side">
           ${r.attending === 'yes'
@@ -434,9 +428,9 @@ button,input,textarea{ font:inherit; color:inherit }
   $('#refresh').onclick = async () => { if (await refresh()) toast('تم التحديث'); };
 
   $('#csv').onclick = () => {
-    const head = ['الاسم', 'الهاتف', 'الرد', 'عدد الأشخاص', 'ملاحظة', 'التاريخ'];
+    const head = ['الاسم', 'الرد', 'عدد الأشخاص', 'ملاحظة', 'التاريخ'];
     const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const lines = [head, ...rows.map(r => [r.name, r.phone || '', r.attending === 'yes' ? 'حاضر' : 'معتذر', r.guests, r.note || '',
+    const lines = [head, ...rows.map(r => [r.name, r.attending === 'yes' ? 'حاضر' : 'معتذر', r.guests, r.note || '',
       new Date(r.created_at).toLocaleString('ar-JO-u-nu-latn')])].map(l => l.map(q).join(','));
     const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });  // BOM so Excel reads Arabic
     const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'guest-list.csv' });
@@ -472,11 +466,11 @@ button,input,textarea{ font:inherit; color:inherit }
     const name = $('#aName').value.trim();
     if (name.length < 2) { $('#aErr').textContent = 'اكتب الاسم'; $('#aName').focus(); return; }
     const att = $('#sheet').querySelector('[name=aAtt]:checked').value;
-    const row = { p_name: name, p_attending: att, p_guests: att === 'yes' ? aG : 0, p_note: $('#aNote').value.trim(), p_phone: $('#aPhone').value.replace(/[^\d+]/g, '') };
+    const row = { p_name: name, p_attending: att, p_guests: att === 'yes' ? aG : 0, p_note: $('#aNote').value.trim() };
     $('#aSave').disabled = true;
     try {
       if (live) { const r = await rpc('guest_add', row); if (!r.ok) throw 0; await refresh(true); }
-      else { rows.unshift({ id: Date.now(), name, phone: row.p_phone, attending: att, guests: row.p_guests, note: row.p_note, created_at: new Date().toISOString() }); render(); }
+      else { rows.unshift({ id: Date.now(), name, attending: att, guests: row.p_guests, note: row.p_note, created_at: new Date().toISOString() }); render(); }
       closeSheet($('#sheet')); toast('تمت الإضافة');
     } catch { $('#aErr').textContent = 'تعذّر الحفظ، حاول مرة أخرى'; }
     finally { $('#aSave').disabled = false; }
