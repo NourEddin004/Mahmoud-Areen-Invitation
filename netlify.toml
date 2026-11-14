@@ -1,0 +1,10 @@
+# Static site, no build step. Deploy the repo root.
+[build]
+  publish = "."
+
+# The couple's dashboard must never show up in search results.
+[[headers]]
+  for = "/list/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"
