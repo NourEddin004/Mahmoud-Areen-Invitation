@@ -130,10 +130,9 @@
     if (stage) return; stage = 1;
     root.classList.add('opening');
     window.__driftPaused = true;                             // give the phone every frame for the envelope
-    await wait(700);  root.classList.add('flap-open');      // flap swings out toward the guest — slowly
-    await wait(2200); root.classList.add('flap-done');
-    root.classList.add('card-up');                           // the top of the card slides up out of the pocket
-    await wait(3200); stage = 2; enter();                    // a moment to read it, then the invitation opens on its own
+    await wait(500);  root.classList.add('flap-open');      // flap swings out toward the guest, seal and all — slowly
+    await wait(3600); root.classList.add('flap-done');
+    await wait(1400); stage = 2; enter();                    // a breath with the envelope open, then the invitation                    // a moment to read it, then the invitation opens on its own
   }
   async function enter() {
     if (stage !== 2) return; stage = 3;
@@ -144,7 +143,7 @@
     await wait(2400);
     cover.remove();
     window.__driftPaused = false;
-    root.classList.remove('opening', 'flap-open', 'flap-done', 'card-up', 'unveil');
+    root.classList.remove('opening', 'flap-open', 'flap-done', 'unveil');
   }
   $('#seal').addEventListener('click', openEnvelope);
   $('#envelope').addEventListener('click', e => { if (!e.target.closest('#card')) openEnvelope(); });

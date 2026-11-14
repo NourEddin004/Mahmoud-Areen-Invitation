@@ -138,7 +138,7 @@ a{ color:inherit }
   will-change:transform;
   position:absolute; z-index:4; left:0; top:0; width:100%; height:50%;
   transform-origin:50% 0; transform-style:preserve-3d;
-  transition:transform 2.2s cubic-bezier(.45,.05,.25,1);
+  transition:transform 3.6s cubic-bezier(.42,0,.22,1);
 }
 .env-flap__face{
   position:absolute; inset:0; clip-path:polygon(0 0, 100% 0, 51.5% 98%, 50% 100%, 48.5% 98%);
@@ -148,7 +148,7 @@ a{ color:inherit }
   background:linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.12)), url("assets/emboss.svg") 0 0/440px 440px, linear-gradient(#F3EDE1,#FBF8F1);
 }
 .env-flap__front::after{ /* the flap darkens as it swings toward you */
-  content:""; position:absolute; inset:0; background:#5E4D33; opacity:0; transition:opacity 2.2s ease }
+  content:""; position:absolute; inset:0; background:#5E4D33; opacity:0; transition:opacity 3.6s ease }
 .flap-open .env-flap__front::after{ opacity:.25 }
 .env-flap__back{ transform:rotateX(180deg);
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23E7EEDD' stroke-width='1.1' stroke-linecap='round' opacity='.75'%3E%3Cpath d='M6 58C20 40 36 26 58 10'/%3E%3Cellipse cx='18' cy='42' rx='7' ry='4.5' transform='rotate(-40 18 42)'/%3E%3Cellipse cx='32' cy='30' rx='7' ry='4.5' transform='rotate(50 32 30)'/%3E%3Cellipse cx='45' cy='20' rx='6' ry='4' transform='rotate(-40 45 20)'/%3E%3C/g%3E%3C/svg%3E") 0 0/64px 64px, linear-gradient(200deg,#93A684,#6E8361) }
@@ -157,8 +157,9 @@ a{ color:inherit }
 .flap-done .env-flap{ visibility:hidden }
 
 .seal{
-  position:absolute; z-index:5; left:50%; top:50%;
-  width:132px; height:132px; margin:-60px 0 0 -66px; padding:0;
+  position:absolute; z-index:5; left:50%; top:100%;
+  width:132px; height:132px; margin:-70px 0 0 -66px; padding:0;
+  transform:translateZ(1px); backface-visibility:hidden; -webkit-backface-visibility:hidden;
   background:none; border:0; border-radius:50%; cursor:pointer;
   filter:drop-shadow(0 6px 10px rgba(60,72,48,.4));
   transition:transform .5s var(--ease), opacity .4s var(--ease);
@@ -168,8 +169,9 @@ a{ color:inherit }
 .seal::after{ content:""; position:absolute; inset:4px; border-radius:50%;
   box-shadow:0 0 0 2px rgba(127,148,112,.35); animation:halo 2.8s var(--ease) infinite }
 @keyframes halo{ 0%{ transform:scale(.95); opacity:0 } 40%{ opacity:1 } 100%{ transform:scale(1.18); opacity:0 } }
-.seal:active{ transform:scale(.94) }
-.opening .seal{ transform:translateY(-22px) scale(1.15) rotate(-10deg); opacity:0; pointer-events:none; transition:transform .9s var(--ease), opacity .8s var(--ease) }
+.seal:active{ transform:translateZ(1px) scale(.96) }
+.opening .seal{ pointer-events:none }
+.opening .seal::after{ display:none }
 
 /* the card waits in the pocket, rises, then fills the screen */
 .card-mini{
@@ -189,8 +191,7 @@ a{ color:inherit }
 .card-mini__names{ font-family:var(--f-disp); font-size:2.1rem; color:var(--sepia); line-height:1.45 }
 .card-mini__names i{ font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.85em }
 .card-mini__date{ font-family:var(--f-latin); font-size:1.05rem; letter-spacing:.24em; color:var(--ink-soft); font-variant-numeric:var(--nums) }
-/* only the top of the card slides out of the envelope; it never leaves the pocket */
-.card-up  .card-mini{ transform:translateY(-40%) }
+/* the card stays in the envelope — you only glimpse it through the opening */
 
 
 /* ═══════════════════════════ 2 · FIRST SCREEN ═══════════════════════════
@@ -204,53 +205,45 @@ a{ color:inherit }
   background:
     radial-gradient(90% 50% at 50% 38%, #FBF8F0, transparent 70%),
     var(--paper);
-  padding:calc(12svh + env(safe-area-inset-top)) 1.25rem 0;
+  height:100svh; min-height:600px;
+  padding:env(safe-area-inset-top) 1.25rem 0;
   display:flex; flex-direction:column;
 }
 .hero__lake{
-  position:relative; margin:1.4rem -1.25rem 0; flex:1 0 34svh; min-height:240px;
+  position:relative; margin:0 -1.25rem; flex:0 0 36svh; min-height:200px;
   -webkit-mask:linear-gradient(transparent, #000 28%); mask:linear-gradient(transparent, #000 28%);
 }
 .hero__art{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 100% }
-.hero__lake .hero__art{ object-position:50% 92% }
+.hero__lake .hero__art{ object-position:50% 90% }
 .js:not(.revealed) .hero__fx{ display:none }   /* nothing animates behind the envelope */
 
-.corner{ position:absolute; z-index:2; width:min(62vw,250px); pointer-events:none }
+.corner{ position:absolute; z-index:2; width:min(50vw,210px); pointer-events:none }
 .corner--tl{ top:0; left:0 }
 .corner--tr{ top:0; right:0; transform:scaleX(-1) }
-.corner--bl{ bottom:0; left:0; width:min(46vw,190px); transform:scaleY(-1) }
-.corner--br{ bottom:0; right:0; width:min(46vw,190px); transform:scale(-1,-1) }
+.corner--bl{ bottom:0; left:0; width:min(30vw,130px); transform:scaleY(-1) }
+.corner--br{ bottom:0; right:0; width:min(30vw,130px); transform:scale(-1,-1) }
 
-.hero__text{ position:relative; z-index:3; order:-1 }
-.mono{ position:relative; width:104px; height:110px; margin:0 auto }
-.mono__wreath{ position:absolute; inset:0; width:100%; height:100% }
-.mono__letters{
-  position:absolute; inset:0 0 18px; display:flex; align-items:center; justify-content:center; gap:.15rem;
-  font-family:var(--f-disp); font-size:2.1rem; color:#9A7B45; line-height:1;
-}
-.mono__letters i{ font-style:normal; font-size:.6em; color:var(--gold) }
+.hero__text{ position:relative; z-index:3; order:-1; flex:1; display:flex; flex-direction:column; justify-content:center; padding-top:min(24svh,180px) }
 .hero__names{
-  font-family:var(--f-disp); color:var(--green); font-size:3.4rem; line-height:1.25; margin-top:.4rem;
-  display:flex; flex-direction:column; align-items:center;
+  font-family:var(--f-disp); color:var(--green); font-size:clamp(2.3rem, 11vw, 3rem); line-height:1.4; white-space:nowrap;
 }
-.hero__amp{ padding-inline-start:2.2rem }
-.hero__amp i{ font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.62em; vertical-align:.15em }
-.hero__invite{ margin-top:.8rem; font-size:1.02rem; color:var(--ink-soft); letter-spacing:.02em }
+.hero__names i{ font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.62em; margin:0 .15em }
+.hero__invite{ margin-top:.3rem; font-size:1rem; color:var(--ink-soft); letter-spacing:.02em }
 .hero__date{
   display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:.9rem;
-  max-width:300px; margin:1rem auto 0;
+  max-width:290px; margin:.7rem auto 0;
 }
 .hero__side{ border-block:1px solid rgba(94,77,51,.25); padding:.2rem 0; font-size:.98rem; color:var(--ink-soft); font-variant-numeric:var(--nums) }
-.hero__day{ font-family:var(--f-latin); font-size:3.2rem; line-height:1; color:var(--green); font-variant-numeric:var(--nums) }
-.hero__weekday{ margin-top:.35rem; font-size:1.05rem; color:var(--ink-soft) }
-.hero__venue{ margin-top:.5rem; font-size:1.02rem; color:var(--ink-soft) }
-.hero__time{ font-family:var(--f-disp); font-size:1.7rem; color:var(--green); margin-top:.15rem }
+.hero__day{ font-family:var(--f-latin); font-size:2.8rem; line-height:1; color:var(--green); font-variant-numeric:var(--nums) }
+.hero__weekday{ margin-top:.2rem; font-size:1.05rem; color:var(--ink-soft) }
+.hero__venue{ margin-top:.1rem; font-size:1.02rem; color:var(--ink-soft) }
+.hero__time{ font-family:var(--f-disp); font-size:1.5rem; color:var(--green); margin-top:.1rem }
 
 /* doves drift across the top half, wings beating slowly */
 .dove{ position:absolute; z-index:3; width:46px; pointer-events:none; filter:drop-shadow(0 2px 2px rgba(80,70,50,.15)) }
-.dove--1{ top:22%; left:-50px; animation:fly 26s linear 1.5s infinite }
+.dove--1{ top:9%; left:-50px; animation:fly 26s linear 1.5s infinite }
 .dove--2{ top:12%; left:-50px; width:34px; animation:fly 32s linear 9s infinite }
-.dove--3{ top:44%; left:-50px; width:30px; animation:fly 38s linear 18s infinite; opacity:.85 }
+.dove--3{ top:58%; left:-50px; width:30px; animation:fly 38s linear 18s infinite; opacity:.85 }
 .dove__wing{ transform-box:fill-box; transform-origin:50% 100%; animation:flap .7s ease-in-out infinite alternate }
 .dove__wing--back{ animation-delay:-.35s }
 @keyframes fly{ 0%{ transform:translate(0,0) } 50%{ transform:translate(calc(50vw + 40px),-18px) } 100%{ transform:translate(calc(100vw + 120px),6px) } }
