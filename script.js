@@ -131,8 +131,9 @@
     root.classList.add('opening');
     window.__driftPaused = true;                             // give the phone every frame for the envelope
     await wait(500);  root.classList.add('flap-open');      // flap swings out toward the guest, seal and all — slowly
-    await wait(3600); root.classList.add('flap-done', 'card-up');   // the card lifts a little
-    await wait(2800); stage = 2; enter();                    // a breath with the envelope open, then the invitation                    // a moment to read it, then the invitation opens on its own
+    await wait(1500); root.classList.add('card-up');        // the card starts lifting while the flap is still swinging
+    await wait(2100); root.classList.add('flap-done');
+    await wait(1100); stage = 2; enter();                    // a breath with the envelope open, then the invitation                    // a moment to read it, then the invitation opens on its own
   }
   async function enter() {
     if (stage !== 2) return; stage = 3;
