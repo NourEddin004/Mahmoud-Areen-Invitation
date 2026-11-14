@@ -143,6 +143,8 @@
     await wait(2400);
     cover.remove();
     window.__driftPaused = false;
+    // tell the guest there is more below; the first scroll puts it away for good
+    setTimeout(() => { if (scrollY < 40) root.classList.add('hint-on'); }, 600);
     root.classList.remove('opening', 'flap-open', 'flap-done', 'unveil');
   }
   $('#seal').addEventListener('click', openEnvelope);
@@ -152,6 +154,11 @@
     e.preventDefault(); openEnvelope();
   });
   if (!root.classList.contains('sealed')) root.classList.add('revealed');
+
+  addEventListener('scroll', function off() {
+    if (scrollY > 40) { root.classList.remove('hint-on'); removeEventListener('scroll', off); }
+  }, { passive: true });
+  if (!root.classList.contains('sealed')) setTimeout(() => root.classList.add('hint-on'), 1500);
 
   /* ── 3b · background motion: a few eucalyptus leaves drifting down ── */
   (function drift() {
