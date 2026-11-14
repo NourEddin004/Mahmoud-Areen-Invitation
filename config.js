@@ -27,7 +27,7 @@ window.INVITE = {
   timeAr  : 'الخامسة مساءً',
 
   // ── the place ─────────────────────────────────────────────────────
-  venueAr : 'منتجع موفنبيك البحر الميت',
+  venueAr : 'فندق موفنبيك البحر الميت',
   cityAr  : 'البحر الميت — الأردن',
   mapUrl  : 'https://maps.app.goo.gl/6iPR6n12V6eGU8RT8',
 

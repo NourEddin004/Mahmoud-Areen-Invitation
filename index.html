@@ -12,11 +12,11 @@
 <link rel="icon" href="assets/seal.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Parisienne&display=swap">
-<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400&family=El+Messiri:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&family=Parisienne&display=swap">
+<link rel="stylesheet" href="style.css?v=25">
 <!-- the cover only exists when JS can open it; without JS the page is simply readable -->
 <script>document.documentElement.classList.add('js','sealed')</script>
-<script src="config.js?v=13"></script>
+<script src="config.js?v=14"></script>
 </head>
 <body>
 
@@ -96,7 +96,6 @@
 
     <svg class="dove dove--1" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
     <svg class="dove dove--2" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
-    <svg class="dove dove--3" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
 
     <!-- scroll hint: shown once the envelope has gone, gone at the first scroll -->
     <div class="swipe" id="swipe" aria-hidden="true">
@@ -122,7 +121,7 @@
         <span class="hero__side" id="hYear">2026</span>
       </div>
       <p class="hero__weekday" id="hWeekday">السبت</p>
-      <p class="hero__venue" id="hVenue">منتجع موفنبيك — البحر الميت</p>
+      <p class="hero__venue" id="hVenue">فندق موفنبيك البحر الميت</p>
       <p class="hero__time" id="hTime">الخامسة مساءً</p>
     </div>
   </header>
@@ -133,17 +132,12 @@
 
       <p class="wc-verse">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
       <span class="wc-rule" aria-hidden="true"></span>
-      <p class="wc-open">بقلوبٍ يملؤها الفرح والامتنان</p>
-      <h2 class="wc-families" id="invTitle">تتشرّف عائلتا<br><b id="famA">صالح</b> <span class="amp-sm">&amp;</span> <b id="famB">شهوان</b></h2>
-      <p class="wc-body">بدعوتكم لحضور حفل زفاف</p>
-
-      <h1 class="names">
-        <span id="groomAr">محمود</span><span class="amp">&amp;</span><span id="brideAr">عرين</span>
-      </h1>
-      <p class="fullnames">
-        <span id="groomFull">محمود جواد صالح</span><span class="fullnames__dot" aria-hidden="true">✦</span><span id="brideFull">عرين وجيه شهوان</span>
-      </p>
-
+      <p class="wc-lead" id="invTitle">تتشرّف عائلتا <span id="famA">صالح</span> و<span id="famB">شهوان</span><br>بدعوتكم لحضور حفل زفاف</p>
+      <h2 class="wc-couple">
+        <span id="groomFull">محمود جواد صالح</span>
+        <span class="wc-and">و</span>
+        <span id="brideFull">عرين وجيه شهوان</span>
+      </h2>
     </article>
   </section>
 
@@ -153,11 +147,6 @@
   <section class="sec countdown" aria-label="العدّ التنازلي">
     <div class="count-card" data-reveal>
       <p class="kicker">نعدّ الأيام</p>
-      <div class="date-row">
-        <span class="date-row__side" id="dWeekday">السبت</span>
-        <span class="date-row__num" id="dDay">28</span>
-        <span class="date-row__side" id="dMonth">تشرين الثاني 2026</span>
-      </div>
       <div class="count" role="timer" aria-live="off">
         <div><b id="cD">0</b><span>يوم</span></div>
         <i aria-hidden="true">·</i>
@@ -178,12 +167,9 @@
     <h2 class="sec__title" id="venueTitle" data-reveal>المكان</h2>
     <div class="venue-card" data-reveal>
       <img class="venue__icon" src="assets/swans.svg" alt="">
-      <h3 class="venue__name" id="vName2">منتجع موفنبيك البحر الميت</h3>
+      <h3 class="venue__name" id="vName2">فندق موفنبيك البحر الميت</h3>
       <p class="venue__addr" id="vAddr">سويمة — البحر الميت، الأردن</p>
-      <ul class="v-notes">
-        <li><b>موعد الوصول</b><span id="vArrive">الخامسة مساءً</span></li>
-        <li><b>التاريخ</b><span id="vDate">السبت 28 تشرين الثاني</span></li>
-      </ul>
+      <p class="v-arrive">موعد الوصول <b id="vArrive">الخامسة مساءً</b></p>
       <div class="actions">
         <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
@@ -199,7 +185,7 @@
   <section class="sec rsvp" id="rsvp" aria-labelledby="rsvpTitle">
     <div class="ticket" data-reveal>
       <div class="ticket__stub" aria-hidden="true">
-        <span>دعوة شخصية</span><svg viewBox="0 0 120 120"><use href="#sealArt"/></svg><span dir="ltr" id="stubDate">28 · 11 · 2026</span>
+        <span>دعوة شخصية</span><span dir="ltr" id="stubDate">28 · 11 · 2026</span>
       </div>
       <div class="ticket__body">
         <p class="kicker">تأكيد الحضور</p>
@@ -317,8 +303,8 @@
       <circle cx="60" cy="61" r="35.5" fill="none" stroke="#6E805C" stroke-width="1" opacity=".55"/>
       <circle cx="60" cy="61" r="31" fill="none" stroke="#8C9C78" stroke-width=".7" opacity=".7"/>
       <!-- monogram: a light lip under a dark cut, as a die leaves it -->
-      <text x="60" y="73.2" text-anchor="middle" font-family="Aref Ruqaa, serif" font-size="30" fill="#D6E0CB" opacity=".8">م ع</text>
-      <text x="60" y="72" text-anchor="middle" font-family="Aref Ruqaa, serif" font-size="30" fill="#556848">م ع</text>
+      <text x="60" y="73.2" text-anchor="middle" font-family="El Messiri, sans-serif" font-size="30" fill="#D6E0CB" opacity=".8">م ع</text>
+      <text x="60" y="72" text-anchor="middle" font-family="El Messiri, sans-serif" font-size="30" fill="#556848">م ع</text>
       <!-- sheen -->
       <path d="M26 36c8-12 22-18 36-17" fill="none" stroke="#EEF3E7" stroke-width="3" stroke-linecap="round" opacity=".45"/>
     </symbol>
@@ -354,6 +340,6 @@
   </defs>
 </svg>
 
-<script src="script.js?v=24"></script>
+<script src="script.js?v=25"></script>
 </body>
 </html>

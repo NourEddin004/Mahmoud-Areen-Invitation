@@ -12,7 +12,6 @@
 
   /* ── 1 · fill the page from config ─────────────────────────────── */
   const set = (sel, v) => { if (v != null) $$(sel).forEach(n => (n.textContent = v)); };
-  set('#groomAr', C.groomAr); set('#brideAr', C.brideAr);
   set('#groomFull', C.groomFullAr); set('#brideFull', C.brideFullAr);
   set('.js-groomEn', C.groomEn); set('.js-brideEn', C.brideEn);
   set('.js-gi', (C.groomAr || 'م')[0]); set('.js-bi', (C.brideAr || 'ع')[0]);
@@ -29,15 +28,11 @@
   set('#hWeekday', fmt({ weekday: 'long' }));
   set('#hVenue', C.venueAr);
   set('#hTime', C.timeAr);
-  set('#dWeekday', fmt({ weekday: 'long' }));
-  set('#dDay', fmt({ day: 'numeric' }));
-  set('#dMonth', `${fmt({ month: 'long' })} ${yy}`);
 
   // the invitation wording and venue card
   if (C.familiesAr) { set('#famA', C.familiesAr[0]); set('#famB', C.familiesAr[1]); }
   set('#vName2', C.venueAr); set('#vEn', C.venueEn); set('#vAddr', C.addressAr);
   set('#vArrive', C.timeAr);
-  set('#vDate', `${fmt({ weekday: 'long' })} ${fmt({ day: 'numeric' })} ${fmt({ month: 'long' })}`);
   if (C.photo) {
     const img = $('#ovalPhoto');
     img.src = C.photo; img.alt = `${C.groomAr} و${C.brideAr}`; img.classList.add('is-photo');
