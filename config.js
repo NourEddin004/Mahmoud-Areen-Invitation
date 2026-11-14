@@ -55,6 +55,6 @@ window.INVITE = {
    ──────────────────────────────────────────────────────────────────── */
 window.INVITE_DB = {
   url  : 'https://cbcbowwsqobxyhssxboj.supabase.co',
-  key  : '',   // ← paste the anon / publishable key here
+  key  : 'sb_publishable_h-GUrX3AbMMwF7XLxfMOCw_flIiQOuE',   // ← paste the anon / publishable key here
   table: 'rsvp',
 };
