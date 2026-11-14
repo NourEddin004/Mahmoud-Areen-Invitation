@@ -15,7 +15,7 @@
   set('#groomAr', C.groomAr); set('#brideAr', C.brideAr);
   set('#groomFull', C.groomFullAr); set('#brideFull', C.brideFullAr);
   set('.js-groomEn', C.groomEn); set('.js-brideEn', C.brideEn);
-  set('.js-gi', (C.groomEn || 'M')[0]); set('.js-bi', (C.brideEn || 'A')[0]);
+  set('.js-gi', (C.groomAr || 'م')[0]); set('.js-bi', (C.brideAr || 'ع')[0]);
   set('#vName', C.venueAr); set('#vCity', C.cityAr);
   if (C.groomAr) document.title = `${C.groomAr} & ${C.brideAr} — دعوة زفاف`;
   if (C.mapUrl) $('#mapBtn').href = C.mapUrl;
@@ -24,7 +24,11 @@
   const tz = 'Asia/Amman';
   const fmt = o => new Intl.DateTimeFormat('ar-JO-u-nu-latn', { timeZone: tz, ...o }).format(when);
   const dd = fmt({ day: '2-digit' }), mm = fmt({ month: '2-digit' }), yy = fmt({ year: 'numeric' });
-  set('#heroDate', `${dd} · ${mm} · ${yy}`);
+  // the first screen
+  set('#hMonth', fmt({ month: 'long' })); set('#hDay', fmt({ day: 'numeric' })); set('#hYear', yy);
+  set('#hWeekday', fmt({ weekday: 'long' }));
+  set('#hVenue', C.venueAr);
+  set('#hTime', C.timeAr);
   set('#dWeekday', fmt({ weekday: 'long' }));
   set('#dDay', fmt({ day: 'numeric' }));
   set('#dMonth', `${fmt({ month: 'long' })} ${yy}`);
@@ -126,18 +130,18 @@
     if (stage) return; stage = 1;
     root.classList.add('opening');
     window.__driftPaused = true;                             // give the phone every frame for the envelope
-    await wait(300);  root.classList.add('flap-open');      // flap swings out toward the guest
-    await wait(1250); root.classList.add('flap-done');
+    await wait(700);  root.classList.add('flap-open');      // flap swings out toward the guest — slowly
+    await wait(2200); root.classList.add('flap-done');
     root.classList.add('card-up');                           // the top of the card slides up out of the pocket
-    await wait(1900); stage = 2; enter();                    // a moment to read it, then the invitation opens on its own
+    await wait(3200); stage = 2; enter();                    // a moment to read it, then the invitation opens on its own
   }
   async function enter() {
     if (stage !== 2) return; stage = 3;
     root.classList.remove('sealed');
     window.scrollTo(0, 0);
     root.classList.add('unveil');
-    await wait(450);  root.classList.add('revealed');
-    await wait(1800);
+    await wait(900);  root.classList.add('revealed');
+    await wait(2400);
     cover.remove();
     window.__driftPaused = false;
     root.classList.remove('opening', 'flap-open', 'flap-done', 'card-up', 'unveil');

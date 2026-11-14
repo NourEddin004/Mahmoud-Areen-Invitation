@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Parisienne&display=swap">
-<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="style.css?v=17">
 <!-- the cover only exists when JS can open it; without JS the page is simply readable -->
 <script>document.documentElement.classList.add('js','sealed')</script>
 <script src="config.js?v=12"></script>
@@ -82,26 +82,42 @@
 
   <!-- ═══════════════ 2 · SAVE THE DATE (the lake) ═══════════════ -->
   <header class="hero">
-    <img class="hero__art" src="assets/lake.webp" alt="" width="400" height="760" decoding="async">
-    <img class="hero__art hero__fx" src="assets/lake-fx.svg" alt="" width="400" height="760">
-    <div class="hero__veil"></div>
-    <div class="hero__text">
-      <p class="hero__script" dir="ltr" lang="en"><span>Save the</span><span>Date</span></p>
-      <p class="hero__ar">احفظوا التاريخ</p>
-      <p class="hero__date" dir="ltr" id="heroDate">18 · 06 · 2027</p>
+    <!-- the lake at the foot of the card, where the château sits in the reference -->
+    <div class="hero__lake" aria-hidden="true">
+      <img class="hero__art" src="assets/lake.webp" alt="" width="400" height="760" decoding="async">
+      <img class="hero__art hero__fx" src="assets/lake-fx.svg" alt="" width="400" height="760">
     </div>
-    <a class="scroll-cue" href="#couple" aria-label="تابع إلى الدعوة">
-      <span></span>
-    </a>
+
+    <img class="corner corner--tl" src="assets/corner.svg" alt="" aria-hidden="true">
+    <img class="corner corner--tr" src="assets/corner.svg" alt="" aria-hidden="true">
+    <img class="corner corner--bl" src="assets/corner.svg" alt="" aria-hidden="true">
+    <img class="corner corner--br" src="assets/corner.svg" alt="" aria-hidden="true">
+
+    <svg class="dove dove--1" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
+    <svg class="dove dove--2" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
+    <svg class="dove dove--3" viewBox="-30 -44 80 56" aria-hidden="true"><use href="#dove"/></svg>
+
+    <div class="hero__text">
+      <div class="mono">
+        <img class="mono__wreath" src="assets/wreath.svg" alt="" aria-hidden="true">
+        <span class="mono__letters"><span class="js-gi">م</span><i>&amp;</i><span class="js-bi">ع</span></span>
+      </div>
+      <h1 class="hero__names"><span class="js-gAr">محمود</span><span class="hero__amp"><i>&amp;</i> <span class="js-bAr">عرين</span></span></h1>
+      <p class="hero__invite">يتشرّفان بدعوتكم لمشاركتهما فرحة زفافهما</p>
+      <div class="hero__date">
+        <span class="hero__side" id="hMonth">تشرين الثاني</span>
+        <span class="hero__day" id="hDay">28</span>
+        <span class="hero__side" id="hYear">2026</span>
+      </div>
+      <p class="hero__weekday" id="hWeekday">السبت</p>
+      <p class="hero__venue" id="hVenue">منتجع موفنبيك — البحر الميت</p>
+      <p class="hero__time" id="hTime">الخامسة مساءً</p>
+    </div>
   </header>
 
   <!-- ═══════════════ 3 · THE INVITATION — engraved wording ═══════════════ -->
   <section class="sec invitation" id="invitation" aria-labelledby="invTitle">
     <article class="wordcard" data-reveal>
-      <figure class="oval">
-        <svg class="oval__frame" viewBox="0 0 260 330" aria-hidden="true"><use href="#ovalFrame"/></svg>
-        <div class="oval__window"><img id="ovalPhoto" src="assets/lake.webp" alt="" class="oval__img" loading="lazy"><img class="oval__img oval__fx" id="ovalFx" src="assets/lake-fx.svg" alt="" loading="lazy"></div>
-      </figure>
 
       <p class="wc-verse">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
       <span class="wc-rule" aria-hidden="true"></span>
@@ -151,7 +167,6 @@
     <div class="venue-card" data-reveal>
       <img class="venue__icon" src="assets/swans.svg" alt="">
       <h3 class="venue__name" id="vName2">منتجع موفنبيك البحر الميت</h3>
-      <p class="venue__en" dir="ltr" lang="en" id="vEn">Mövenpick Resort &amp; Spa Dead Sea</p>
       <p class="venue__addr" id="vAddr">سويمة — البحر الميت، الأردن</p>
       <ul class="v-notes">
         <li><b>موعد الوصول</b><span id="vArrive">الخامسة مساءً</span></li>
@@ -165,6 +180,8 @@
       </div>
     </div>
   </section>
+
+  <div class="garland" aria-hidden="true"><svg viewBox="0 0 400 90"><use href="#garlandArt"/></svg></div>
 
   <!-- ═══════════════ 8 · RSVP — ticket ═══════════════ -->
   <section class="sec rsvp" id="rsvp" aria-labelledby="rsvpTitle">
@@ -224,7 +241,6 @@
   <!-- ═══════════════ 8 · CLOSING ═══════════════ -->
   <footer class="closing">
     <svg class="closing__edge" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0V10Q20 24 40 10Q60 24 80 10Q100 24 120 10Q140 24 160 10Q180 24 200 10Q220 24 240 10Q260 24 280 10Q300 24 320 10Q340 24 360 10Q380 24 400 10V0Z"/></svg>
-    <div class="fireflies" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
     <figure class="night" aria-hidden="true">
       <svg class="night__frame" viewBox="12 8 76 80" preserveAspectRatio="none"><use href="#cartouche"/></svg>
@@ -235,7 +251,6 @@
       </div>
     </figure>
 
-    <p class="latin-caps latin-caps--light" dir="ltr" lang="en">We can't wait<br>to celebrate with you</p>
     <p class="closing__ar">بانتظاركم لنحتفل معاً</p>
     <p class="closing__date" dir="ltr" id="footDate">28 · 11 · 2026</p>
 
@@ -246,6 +261,15 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <path id="cartouche" d="M50 8C56 8 60 12 62 16C66 14 72 15 74 20C80 20 84 26 82 32C88 36 88 44 84 48C88 52 88 60 82 64C84 70 80 76 74 76C72 81 66 82 62 80C60 84 56 88 50 88C44 88 40 84 38 80C34 82 28 81 26 76C20 76 16 70 18 64C12 60 12 52 16 48C12 44 12 36 18 32C16 26 20 20 26 20C28 15 34 14 38 16C40 12 44 8 50 8Z"/>
+    <!-- a white dove in flight; the two wings flap from the shoulder -->
+    <symbol id="dove" viewBox="-30 -44 80 56">
+      <g class="dove__wing dove__wing--back"><path d="M10 -4C8 -18 14 -32 30 -40C27 -28 25 -16 22 -4Z" fill="#E9E4D8"/></g>
+      <path d="M-26 -2L-12 -6C-4 -9 10 -10 22 -7C29 -6 33 -4 37 -6C40 -7 43 -6 44 -4L39 -2C37 2 30 6 20 7C8 8 -4 6 -12 3L-26 6L-22 2Z" fill="#FBF9F3" stroke="#CFC7B4" stroke-width=".7"/>
+      <path d="M44 -4L48 -3L44 -2Z" fill="#C9A27A"/>
+      <circle cx="40" cy="-4.6" r=".9" fill="#4A4032"/>
+      <g class="dove__wing"><path d="M6 -5C2 -20 6 -36 20 -44C21 -30 22 -18 24 -6Z" fill="#FFFEFB" stroke="#D6CEBB" stroke-width=".7"/>
+        <path d="M10 -14L18 -12M9 -22L18 -20M11 -30L19 -28" stroke="#DDD5C3" stroke-width=".6"/></g>
+    </symbol>
     <!-- wax seal -->
     <radialGradient id="wax" cx="38%" cy="32%" r="75%">
       <stop offset="0" stop-color="#A9B898"/><stop offset=".45" stop-color="#7F9470"/><stop offset="1" stop-color="#55684A"/>
@@ -272,7 +296,7 @@
     </radialGradient>
     <symbol id="sealArt" viewBox="0 0 120 120">
       <!-- the poured blob, uneven where the wax ran -->
-      <path d="M60 5c9 0 13 5 21 6 9 1 15-1 19 7 3 6 0 11 4 17 5 6 12 9 11 18-1 8-7 10-7 17 0 8 6 12 2 19-4 8-12 6-18 10-6 5-7 12-16 14-8 2-12-3-19-3-8 0-13 6-21 3-8-3-8-11-14-15-6-5-14-5-17-13-3-7 3-12 1-19-2-8-9-11-8-19 1-9 9-11 11-18 2-8-1-14 6-19 7-5 13-1 20-4 8-4 12-11 25-6z" fill="url(#waxBody)"/>
+      <path d="M115 60C115.2 65 113.5 70.4 111.7 75.2C109.9 79.9 107.1 84.3 104.3 88.4C101.4 92.6 98.4 96.9 94.6 99.9C90.8 103 85.9 104.8 81.4 106.9C76.9 109 72.4 111.1 67.5 112.3C62.7 113.6 57.2 114.9 52.2 114.4C47.2 113.8 42 111.5 37.6 109C33.2 106.5 29.5 102.9 25.8 99.5C22.1 96.1 18.3 92.6 15.6 88.5C12.8 84.4 10.7 79.6 9.3 74.9C7.9 70.1 7.5 65.1 7.2 60C6.8 54.9 5.9 49.3 7.2 44.5C8.5 39.7 11.9 35 15.1 31.1C18.3 27.3 22.6 24.4 26.4 21.2C30.2 18.1 33.8 14.6 38.2 12.2C42.5 9.8 47.4 7.7 52.4 6.8C57.3 5.9 62.6 6.3 67.6 7C72.6 7.7 77.8 9 82.4 11C87 13.1 91.7 15.9 95.2 19.4C98.7 22.9 100.7 27.9 103.2 32.2C105.8 36.5 108.6 40.5 110.6 45.1C112.5 49.8 114.8 55 115 60Z" fill="url(#waxBody)"/>
       <!-- the raised rim left by the stamp -->
       <circle cx="60" cy="61" r="39" fill="none" stroke="#7D8F69" stroke-width="5" opacity=".55"/>
       <circle cx="60" cy="61" r="40.5" fill="none" stroke="#D3DDC7" stroke-width="1.2" opacity=".7"/>
@@ -281,8 +305,8 @@
       <circle cx="60" cy="61" r="35.5" fill="none" stroke="#6E805C" stroke-width="1" opacity=".55"/>
       <circle cx="60" cy="61" r="31" fill="none" stroke="#8C9C78" stroke-width=".7" opacity=".7"/>
       <!-- monogram: a light lip under a dark cut, as a die leaves it -->
-      <text x="60" y="76" text-anchor="middle" font-family="Parisienne, cursive" font-size="36" fill="#D6E0CB" stroke="#D6E0CB" stroke-width="1.1" opacity=".85">M<tspan font-size="22" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
-      <text x="60" y="74.8" text-anchor="middle" font-family="Parisienne, cursive" font-size="36" fill="#5E7050" stroke="#5E7050" stroke-width=".9" stroke-linejoin="round">M<tspan font-size="22" dy="-5">&amp;</tspan><tspan dy="5">A</tspan></text>
+      <text x="60" y="73.2" text-anchor="middle" font-family="Aref Ruqaa, serif" font-size="30" fill="#D6E0CB" opacity=".8">م ع</text>
+      <text x="60" y="72" text-anchor="middle" font-family="Aref Ruqaa, serif" font-size="30" fill="#556848">م ع</text>
       <!-- sheen -->
       <path d="M26 36c8-12 22-18 36-17" fill="none" stroke="#EEF3E7" stroke-width="3" stroke-linecap="round" opacity=".45"/>
     </symbol>
@@ -318,6 +342,6 @@
   </defs>
 </svg>
 
-<script src="script.js?v=12"></script>
+<script src="script.js?v=16"></script>
 </body>
 </html>
