@@ -514,7 +514,7 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 @keyframes blink{ 0%,100%{ opacity:.15 } 50%{ opacity:1 } }
 
 .night{ position:relative; width:min(64vw,236px); aspect-ratio:76/92; margin:0 auto 2rem }
-.night__frame{ position:absolute; inset:-8px; width:calc(100% + 16px); height:calc(100% + 16px);
+.night__frame{ position:absolute; left:-8px; top:-8px; width:calc(100% + 16px); height:calc(100% + 16px); max-width:none;
   fill:none; stroke:#C9AE72; stroke-width:.55; overflow:visible; opacity:.9 }
 .night__frame use{ vector-effect:non-scaling-stroke }
 .night__window{
@@ -525,7 +525,9 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
     radial-gradient(1px 1px at 20% 18%, #fff8, transparent), radial-gradient(1px 1px at 70% 12%, #fff9, transparent),
     radial-gradient(1px 1px at 82% 30%, #fff6, transparent), radial-gradient(1px 1px at 34% 36%, #fff7, transparent),
     radial-gradient(1px 1px at 56% 24%, #fffa, transparent), radial-gradient(1.4px 1.4px at 14% 44%, #fff6, transparent),
-    linear-gradient(#26302D 0%, #3E4436 42%, #6A6348 57%, #2C2A1D 58%, #1E1D15 100%);
+    radial-gradient(70% 7% at 50% 57%, rgba(214,206,170,.35), transparent 70%),
+    repeating-linear-gradient(to bottom, transparent 0 9px, rgba(255,240,200,.045) 9px 10px) 0 100%/100% 42% no-repeat,
+    linear-gradient(#1E2829 0%, #2F3A36 30%, #4C5244 50%, #6E6B55 56.5%, #3B3D30 57.5%, #262920 75%, #171812 100%);
 }
 .night__moon{
   position:absolute; left:50%; top:20%; width:30px; height:30px; margin-left:-15px; border-radius:50%;
@@ -533,13 +535,15 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
   box-shadow:0 0 22px 8px rgba(255,240,200,.28), 0 0 60px 20px rgba(255,240,200,.12);
 }
 .night__path{
-  position:absolute; left:50%; top:58%; width:16px; height:30%; margin-left:-8px;
-  background:linear-gradient(to bottom, rgba(255,240,200,.5), rgba(255,240,200,0));
-  filter:blur(3px); border-radius:50%;
-  animation:shimmer 3s ease-in-out infinite;
+  position:absolute; left:50%; top:58%; width:46px; height:34%; margin-left:-23px;
+  background:repeating-linear-gradient(to bottom, rgba(255,242,205,.42) 0 1px, transparent 1px 5px);
+  filter:blur(.7px);
+  -webkit-mask:radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%);
+          mask:radial-gradient(50% 100% at 50% 0%, #000 30%, transparent 100%);
+  animation:shimmer 3.2s ease-in-out infinite;
 }
 @keyframes shimmer{ 0%,100%{ opacity:.6; transform:scaleX(1) } 50%{ opacity:1; transform:scaleX(1.5) } }
-.night__swans{ position:absolute; left:8%; width:84%; bottom:9%; filter:brightness(.92) contrast(1.05);
+.night__swans{ position:absolute; left:10%; width:80%; bottom:4%; filter:brightness(.92) contrast(1.05);
   animation:bobS 5s ease-in-out infinite }
 @keyframes bobS{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-2px) } }
 

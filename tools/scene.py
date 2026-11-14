@@ -250,6 +250,13 @@ SWANS_ONLY = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-130 -140 260 1
               + f'<g transform="translate(0 3) scale(1 -.55)" opacity=".22" filter="url(#ripple)">{pair}</g>'
               + pair + '</svg>')
 (OUT.parent / "swans.svg").write_text(SWANS_ONLY)
+SWANS_NIGHT = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-130 -140 260 200">'
+               f'<defs>{PLUME}<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">'
+               f'<stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+               f'<mask id="m"><rect x="-130" y="0" width="260" height="60" fill="url(#fade)"/></mask></defs>'
+               f'<g mask="url(#m)"><g transform="translate(0 2) scale(1 -.7)" opacity=".55">{pair}</g></g>'
+               + pair + '</svg>')
+(OUT.parent / "swans-night.svg").write_text(SWANS_NIGHT)
 
 # ── reeds, foreground corners ────────────────────────────────────────
 reeds = []
