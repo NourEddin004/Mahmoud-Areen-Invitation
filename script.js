@@ -122,10 +122,10 @@
     front.forEach(n => g.append(n));
   })();
 
-  /* ── 3 · the envelope: seal → flap up → card rises → tap → lake ── */
-  const cover = $('#cover'), hint = $('#envHint'), card = $('#card');
+  /* ── 3 · the envelope: seal → flap opens → invitation ── */
+  const cover = $('#cover'), hint = $('#envHint');
   const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
-  let stage = 0;   // 0 sealed · 1 opening · 2 card waiting · 3 gone
+  let stage = 0;   // 0 sealed · 1 opening · 2 open · 3 gone
   async function openEnvelope() {
     if (stage) return; stage = 1;
     root.classList.add('opening');
@@ -146,7 +146,7 @@
     root.classList.remove('opening', 'flap-open', 'flap-done', 'unveil');
   }
   $('#seal').addEventListener('click', openEnvelope);
-  $('#envelope').addEventListener('click', e => { if (!e.target.closest('#card')) openEnvelope(); });
+  $('#envelope').addEventListener('click', openEnvelope);
   document.addEventListener('keydown', e => {
     if (stage === 3 || !(e.key === 'Enter' || e.key === ' ')) return;
     e.preventDefault(); openEnvelope();
