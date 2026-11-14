@@ -14,7 +14,7 @@ W, H = 400, 760
 HORIZON = 372          # where the far bank meets the water
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "lake.svg"
 
-INK, DEEP, MID, LIGHT, PAPER = "#43361F", "#5E4D33", "#8C7A5C", "#C2B391", "#E8DFCB"
+INK, DEEP, MID, LIGHT, PAPER = "#3F4C40", "#62776A", "#93A79A", "#C8D5CA", "#EEF1EA"
 
 def f(x):  # compact numbers
     return f"{x:.1f}".rstrip("0").rstrip(".")
@@ -26,10 +26,10 @@ fx = []            # the few things that move: birds, ripples, the live swans
 # ── defs: hatch patterns + grain ─────────────────────────────────────
 add(f"""<defs>
 <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#D9CDB2"/><stop offset=".55" stop-color="#E9E1CD"/><stop offset="1" stop-color="#EFE8D6"/>
+  <stop offset="0" stop-color="#E4EAE1"/><stop offset=".55" stop-color="#EFF2EA"/><stop offset="1" stop-color="#F3F3EB"/>
 </linearGradient>
 <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0" stop-color="#E4DAC3"/><stop offset=".5" stop-color="#D6C9AC"/><stop offset="1" stop-color="#BFAE8B"/>
+  <stop offset="0" stop-color="#E3EBE4"/><stop offset=".5" stop-color="#CFDDD5"/><stop offset="1" stop-color="#B7CBC0"/>
 </linearGradient>
 <pattern id="hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
   <line x1="0" y1="0" x2="0" y2="3" stroke="{INK}" stroke-width=".7" opacity=".55"/>
@@ -39,7 +39,7 @@ add(f"""<defs>
 </pattern>
 <filter id="grain" x="0" y="0" width="100%" height="100%">
   <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/>
-  <feColorMatrix values="0 0 0 0 .26  0 0 0 0 .21  0 0 0 0 .12  0 0 0 .22 0"/>
+  <feColorMatrix values="0 0 0 0 .22  0 0 0 0 .28  0 0 0 0 .24  0 0 0 .14 0"/>
   <feComposite in2="SourceGraphic" operator="in"/>
 </filter>
 <filter id="ripple" x="-5%" y="-5%" width="110%" height="110%">
@@ -177,7 +177,7 @@ while y < H:
             wl.append(f"M{f(x)} {f(y)}h{f(seg)}")
         x += seg + random.uniform(6, 26)
     y += 1.6 + 5 * t
-add(f'<path d="{"".join(wl)}" stroke="{DEEP}" stroke-width=".5" opacity=".42" fill="none"/>')
+add(f'<path d="{"".join(wl)}" stroke="{MID}" stroke-width=".5" opacity=".55" fill="none"/>')
 # shoreline
 add(f'<path d="M0 {HORIZON+1}H{W}" stroke="{INK}" stroke-width=".6" opacity=".45"/>')
 
