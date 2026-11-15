@@ -13,10 +13,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400&family=El+Messiri:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&family=Parisienne&display=swap">
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 <!-- the cover only exists when JS can open it; without JS the page is simply readable -->
 <script>document.documentElement.classList.add('js','sealed')</script>
-<script src="config.js?v=15"></script>
+<script src="config.js?v=16"></script>
 </head>
 <body>
 
@@ -114,7 +114,12 @@
 
     <div class="hero__text">
       <p class="hero__verse">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
-      <p class="hero__hosts">يتشرّف <span id="hostA">السيد جواد صالح</span> و<span id="hostB">السيد وجيه شهوان</span><br>بدعوتكم لحضور حفل زفاف</p>
+      <p class="hero__lead">يتشرّفان</p>
+      <div class="hero__hosts">
+        <p><span class="js-hTitle">السيد</span><b id="hostA">جواد صالح</b></p>
+        <p><span class="js-hTitle">السيد</span><b id="hostB">وجيه شهوان</b></p>
+      </div>
+      <p class="hero__lead">بدعوتكم لحضور حفل زفاف ابنيهما</p>
       <h1 class="hero__names"><span class="js-gAr">محمود</span> <i>&amp;</i> <span class="js-bAr">عرين</span></h1>
       <div class="hero__date">
         <span class="hero__side" id="hMonth">تشرين الثاني</span>
@@ -127,7 +132,7 @@
     </div>
   </header>
 
-  <div class="garland" aria-hidden="true"><svg viewBox="0 0 400 90"><use href="#garlandArt"/></svg></div>
+  <div class="garland" aria-hidden="true"><svg viewBox="0 0 400 80"><use href="#garlandArt"/></svg></div>
 
   <!-- ═══════════════ 5 · COUNTDOWN ═══════════════ -->
   <section class="sec countdown" aria-label="العدّ التنازلي">
@@ -146,7 +151,7 @@
     </div>
   </section>
 
-  <div class="garland garland--flip" aria-hidden="true"><svg viewBox="0 0 400 90"><use href="#garlandArt"/></svg></div>
+  <div class="garland garland--flip" aria-hidden="true"><svg viewBox="0 0 400 80"><use href="#garlandArt"/></svg></div>
 
   <!-- ═══════════════ 6 · VENUE ═══════════════ -->
   <section class="sec venue" id="venue" aria-labelledby="venueTitle">
@@ -156,6 +161,7 @@
       <h3 class="venue__name" id="vName2">فندق موفنبيك البحر الميت</h3>
       <p class="venue__addr" id="vAddr">سويمة — البحر الميت، الأردن</p>
       <p class="v-arrive">موعد الوصول <b id="vArrive">الخامسة مساءً</b></p>
+      <p class="no-kids"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#noKids"/></svg>ممنوع اصطحاب الأطفال</p>
       <div class="actions">
         <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
@@ -165,7 +171,7 @@
     </div>
   </section>
 
-  <div class="garland" aria-hidden="true"><svg viewBox="0 0 400 90"><use href="#garlandArt"/></svg></div>
+  <div class="garland" aria-hidden="true"><svg viewBox="0 0 400 80"><use href="#garlandArt"/></svg></div>
 
   <!-- ═══════════════ 8 · RSVP — ticket ═══════════════ -->
   <section class="sec rsvp" id="rsvp" aria-labelledby="rsvpTitle">
@@ -195,7 +201,7 @@
           </fieldset>
 
           <div class="field" id="guestsField" hidden>
-            <label id="gLabel">عدد الحضور <small>(بمن فيهم أنت)</small></label>
+            <label id="gLabel">عدد الحضور <small>(بمن فيهم أنت، دون أطفال)</small></label>
             <div class="stepper" role="group" aria-labelledby="gLabel">
               <button type="button" class="stepper__btn" id="gMinus" aria-label="إنقاص">−</button>
               <output id="gOut" aria-live="polite">1</output>
@@ -332,11 +338,21 @@
       <circle cx="32" cy="31" r="8" fill="url(#wax)"/>
     </symbol>
 
-    <!-- garland is drawn by script.js (bulbs on a catenary + eucalyptus) -->
-    <symbol id="garlandArt" viewBox="0 0 400 90"><g id="garlandG"></g></symbol>
+    <!-- no children: two little figures under a slashed circle -->
+    <symbol id="noKids" viewBox="0 0 48 48">
+      <g fill="#5E4D33">
+        <circle cx="17.5" cy="15" r="3.6"/><path d="M13.6 20.5h7.8l1 9.5h-2.3v8h-2.5v-6.5h-1v6.5h-2.5v-8h-1.5Z"/>
+        <circle cx="30.5" cy="15" r="3.6"/><path d="M27 20.5h7l3 11h-3.4v6.5h-2.3v-6.5h-1v6.5H28v-6.5h-3.6Z"/>
+        <path d="M26.6 13.2l-1.8-1.2M34.4 13.2l1.8-1.2" stroke="#5E4D33" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+      <circle cx="24" cy="24" r="20.5" fill="none" stroke="#A04A3A" stroke-width="3.4"/>
+      <path d="M9.6 38.4L38.4 9.6" stroke="#A04A3A" stroke-width="3.4" stroke-linecap="round"/>
+    </symbol>
+    <!-- the dividers are olive branches, drawn by script.js -->
+    <symbol id="garlandArt" viewBox="0 0 400 80"><g id="garlandG"></g></symbol>
   </defs>
 </svg>
 
-<script src="script.js?v=27"></script>
+<script src="script.js?v=29"></script>
 </body>
 </html>

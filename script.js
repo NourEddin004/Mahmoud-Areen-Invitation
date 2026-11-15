@@ -30,6 +30,7 @@
 
   // the invitation wording and venue card
   if (C.hostsAr) { set('#hostA', C.hostsAr[0]); set('#hostB', C.hostsAr[1]); }
+  set('.js-hTitle', C.hostsTitleAr);
   set('#vName2', C.venueAr); set('#vEn', C.venueEn); set('#vAddr', C.addressAr);
   set('#vArrive', C.timeAr);
   if (C.photo) {
@@ -54,66 +55,68 @@
   set('.js-gAr', C.groomAr); set('.js-bAr', C.brideAr);
   ['#cardDate', '#footDate', '#stubDate'].forEach(id => set(id, `${dd} · ${mm} · ${yy}`));
 
-  /* ── 2 · the garland: Edison bulbs on a twisted wire, wrapped in eucalyptus ── */
-  (function garland() {
+  /* ── 2 · the dividers: an olive branch — a slim twig, silver-green leaves, a few olives ── */
+  (function olive() {
     const g = $('#garlandG'); if (!g) return;
     const NS = 'http://www.w3.org/2000/svg';
     const el = (n, a, kids = []) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); kids.forEach(c => e.append(c)); return e; };
-    const stop = (o, c, op = 1) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': op });
-    let seed = 23; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const stop = (o, c) => el('stop', { offset: o, 'stop-color': c });
+    let seed = 41; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const f = n => n.toFixed(1);
 
     g.append(el('defs', {}, [
-      el('radialGradient', { id: 'gGlass', cx: '42%', cy: '62%', r: '60%' }, [stop(0, '#FFFDF0'), stop(.4, '#FFEDB3'), stop(.8, '#F4C766', .95), stop(1, '#D59A3C', .9)]),
-      el('radialGradient', { id: 'gGlow' }, [stop(0, '#FFD988', .75), stop(.45, '#FFD988', .28), stop(1, '#FFD988', 0)]),
-      el('linearGradient', { id: 'gBrass', x1: 0, x2: 1 }, [stop(0, '#5B4626'), stop(.35, '#C8A86A'), stop(.6, '#9C7D45'), stop(1, '#4E3C20')]),
-      el('radialGradient', { id: 'gLeaf', cx: '35%', cy: '30%', r: '80%' }, [stop(0, '#C3D0B5'), stop(.55, '#97A988'), stop(1, '#71856A')]),
-      el('radialGradient', { id: 'gLeaf2', cx: '35%', cy: '30%', r: '80%' }, [stop(0, '#A9B99B'), stop(.6, '#7D9070'), stop(1, '#5C6F55')]),
+      el('linearGradient', { id: 'oTop', x1: 0, x2: 1 }, [stop(0, '#5F6E47'), stop(.6, '#74835A'), stop(1, '#8A9870')]),
+      el('linearGradient', { id: 'oUnder', x1: 0, x2: 1 }, [stop(0, '#9AA88C'), stop(1, '#C3CDB6')]),
+      el('radialGradient', { id: 'oDark', cx: '35%', cy: '30%', r: '75%' }, [stop(0, '#7A6577'), stop(.55, '#4A3946'), stop(1, '#2E2330')]),
+      el('radialGradient', { id: 'oGreen', cx: '35%', cy: '30%', r: '75%' }, [stop(0, '#B9BE7A'), stop(.6, '#8C934C'), stop(1, '#626A32')]),
     ]));
 
-    const Y = t => 12 + 46 * Math.sin(Math.PI * t);          // the wire's droop
-    const P = t => [6 + t * 388, Y(t)];
-    const line = f => { let d = ''; for (let i = 0; i <= 120; i++) { const [x, y] = f(i / 120); d += `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`; } return d; };
-    // two strands twisted round each other
-    g.append(el('path', { d: line(t => { const [x, y] = P(t); return [x, y + .8 * Math.sin(t * 90)]; }), fill: 'none', stroke: '#3B3124', 'stroke-width': '.9' }));
-    g.append(el('path', { d: line(t => { const [x, y] = P(t); return [x, y - .8 * Math.sin(t * 90)]; }), fill: 'none', stroke: '#5A4B36', 'stroke-width': '.7' }));
-    // eucalyptus stem wandering along the wire
-    g.append(el('path', { d: line(t => { const [x, y] = P(t); return [x, y + 2.2 * Math.sin(t * 23)]; }), fill: 'none', stroke: '#6E7B5C', 'stroke-width': '1.1', opacity: '.9' }));
+    // the twig: a long, gentle S from left to right, thinning toward the tip
+    const Y = t => 40 + 8 * Math.sin(t * Math.PI * 1.6 - .5);
+    const P = t => [8 + t * 384, Y(t)];
+    const ang = t => { const [x1, y1] = P(t - .005), [x2, y2] = P(t + .005); return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI; };
+    const W = t => 3.2 * (1 - .7 * t) + .5;
+    let top = '', bot = '';
+    for (let i = 0; i <= 80; i++) { const t = i / 80, [x, y] = P(t), w = W(t); top += `${i ? 'L' : 'M'}${f(x)} ${f(y - w / 2)}`; bot = `L${f(x)} ${f(y + w / 2)}` + bot; }
+    const twig = el('path', { d: top + bot + 'Z', fill: '#6E604A' });
 
-    const leaf = (x, y, r, ang, front) => {
-      const ry = r * (.82 + rnd() * .15);
-      const grp = el('g', { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(0)})`, opacity: (front ? .97 : .88).toFixed(2) });
-      grp.append(el('path', { d: `M0 0L${(r * .55).toFixed(1)} 0`, stroke: '#6E7B5C', 'stroke-width': '.6' }));                // petiole
-      grp.append(el('ellipse', { cx: (r * .55 + r).toFixed(1), cy: 0, rx: r.toFixed(1), ry: ry.toFixed(1), fill: rnd() < .55 ? 'url(#gLeaf)' : 'url(#gLeaf2)', stroke: '#5E6F52', 'stroke-width': '.3', 'stroke-opacity': '.6' }));
-      grp.append(el('path', { d: `M${(r * .6).toFixed(1)} 0Q${(r * 1.5).toFixed(1)} ${(-ry * .12).toFixed(1)} ${(r * 2.3).toFixed(1)} 0`, stroke: '#E4ECD9', 'stroke-width': '.4', fill: 'none', opacity: '.75' }));
+    const leaf = (x, y, a, L, under) => {
+      const w = L * .24, bend = (rnd() - .5) * L * .18;
+      const grp = el('g', { transform: `translate(${f(x)} ${f(y)}) rotate(${f(a)})` });
+      grp.append(el('path', { d: `M0 0C${f(L * .25)} ${f(-w)} ${f(L * .7)} ${f(-w * .8 + bend)} ${f(L)} ${f(bend)}C${f(L * .7)} ${f(w * .7 + bend)} ${f(L * .25)} ${f(w * .9)} 0 0Z`,
+        fill: under ? 'url(#oUnder)' : 'url(#oTop)', stroke: under ? '#8E9C80' : '#56653F', 'stroke-width': '.3', 'stroke-opacity': '.5' }));
+      grp.append(el('path', { d: `M${f(L * .06)} 0Q${f(L * .5)} ${f(bend * .4)} ${f(L * .94)} ${f(bend * .95)}`, fill: 'none', stroke: under ? '#E6EBDD' : '#A9B592', 'stroke-width': '.45', opacity: '.8' }));
       return grp;
     };
-    const back = [], front = [];
-    for (let i = 0; i < 34; i++) {
-      const t = (i + .3 + rnd() * .4) / 34, [x, y0] = P(t), y = y0 + 2.2 * Math.sin(t * 23);
-      const r = 3.6 + rnd() * 3.2, tilt = (t - .5) * 50;
-      back.push(leaf(x, y, r, -70 - rnd() * 50 + tilt, false));
-      (rnd() < .4 ? front : back).push(leaf(x + 2, y, r * .9, 60 + rnd() * 50 + tilt, true));
-    }
-    back.forEach(n => g.append(n));
+    const olives = (x, y, a, n) => {
+      const grp = el('g', { transform: `translate(${f(x)} ${f(y)}) rotate(${f(a)})` });
+      for (let k = 0; k < n; k++) {
+        const dx = (k - (n - 1) / 2) * 7, len = 7 + rnd() * 4;
+        grp.append(el('path', { d: `M0 0Q${f(dx * .4)} ${f(len * .5)} ${f(dx)} ${f(len)}`, fill: 'none', stroke: '#6E604A', 'stroke-width': '.7' }));
+        const dark = rnd() < .6;
+        grp.append(el('ellipse', { cx: f(dx), cy: f(len + 5.4), rx: 4.3, ry: 5.7, fill: dark ? 'url(#oDark)' : 'url(#oGreen)' }));
+        grp.append(el('ellipse', { cx: f(dx - 1.4), cy: f(len + 3.6), rx: 1.2, ry: 1.7, fill: '#fff', opacity: '.35' }));
+      }
+      return grp;
+    };
 
-    // bulbs
-    for (let i = 1; i < 10; i++) {
-      const t = i / 10, [x, y] = P(t), cord = 5 + (i % 3) * 2.5 + rnd() * 2;
-      const b = el('g', { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${((t - .5) * -14).toFixed(1)})` });
-      const cy = cord + 6 + 8.5;
-      b.append(el('circle', { cx: 0, cy: cy.toFixed(1), r: 22, fill: 'url(#gGlow)', class: 'bulb', style: `animation-delay:${(-rnd() * 4).toFixed(2)}s` }));
-      b.append(el('path', { d: `M0 0V${cord.toFixed(1)}`, stroke: '#3B3124', 'stroke-width': '.8' }));
-      b.append(el('rect', { x: -2.9, y: cord.toFixed(1), width: 5.8, height: 6.2, rx: 1, fill: 'url(#gBrass)' }));
-      b.append(el('path', { d: `M-2.9 ${(cord + 2).toFixed(1)}h5.8M-2.9 ${(cord + 4).toFixed(1)}h5.8`, stroke: '#3E2F18', 'stroke-width': '.35', opacity: '.7' }));
-      const gy = cord + 6.2;
-      b.append(el('path', { d: `M-2.3 ${gy}C-2.3 ${gy + 2} -6.6 ${gy + 3.4} -6.6 ${gy + 8.5}A6.6 6.6 0 0 0 6.6 ${gy + 8.5}C6.6 ${gy + 3.4} 2.3 ${gy + 2} 2.3 ${gy}Z`,
-        fill: 'url(#gGlass)', stroke: '#B88A3A', 'stroke-width': '.35', 'stroke-opacity': '.6' }));
-      b.append(el('path', { d: `M-1.4 ${gy + .5}L-1.1 ${gy + 6}L-2.6 ${gy + 8.4}M1.4 ${gy + .5}L1.1 ${gy + 6}L2.6 ${gy + 8.4}`, stroke: '#9B5A1D', 'stroke-width': '.4', fill: 'none' }));
-      b.append(el('path', { d: `M-2.6 ${gy + 8.4}q.65-1.3 1.3 0t1.3 0t1.3 0t1.3 0`, stroke: '#FF9E2C', 'stroke-width': '.9', fill: 'none', class: 'filament' }));
-      b.append(el('path', { d: `M-4.6 ${gy + 6.5}Q-5.2 ${gy + 10} -3 ${gy + 12.6}`, stroke: '#fff', 'stroke-width': '.9', fill: 'none', opacity: '.8', 'stroke-linecap': 'round' }));
-      g.append(b);
+    const under = [], over = [];
+    // leaves in pairs-ish along the twig, alternating sides, shorter toward the tip
+    for (let i = 0; i < 46; i++) {
+      const t = .015 + i * .0215 + rnd() * .008; if (t > .975) break;
+      const [x, y] = P(t), side = i % 2 ? 1 : -1, L = (40 - 16 * t) * (.8 + rnd() * .35);
+      const a = ang(t) + side * (24 + rnd() * 26) + (t - .5) * 10;
+      (rnd() < .4 ? under : over).push(leaf(x, y, a, L, rnd() < .4));
     }
-    front.forEach(n => g.append(n));
+    // a tip leaf pointing on along the branch
+    { const [x, y] = P(.985); over.push(leaf(x - 3, y, ang(.985) - 6, 22, false)); }
+    // olive clusters hanging under the twig
+    const fruit = [[.14, 2], [.36, 3], [.58, 2], [.8, 2]].map(([t, n]) => { const [x, y] = P(t); return olives(x, y + .5, ang(t) * .4 + (rnd() - .5) * 14, n); });
+
+    under.forEach(n => g.append(n));
+    fruit.forEach(n => g.append(n));
+    g.append(twig);
+    over.forEach(n => g.append(n));
   })();
 
   /* ── 3 · the envelope: seal → flap opens → invitation ── */
