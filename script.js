@@ -71,13 +71,13 @@
       el('radialGradient', { id: 'oGreen', cx: '35%', cy: '30%', r: '75%' }, [stop(0, '#B9BE7A'), stop(.6, '#8C934C'), stop(1, '#626A32')]),
     ]));
 
-    // the twig: a long, gentle S from left to right, thinning toward the tip
-    const Y = t => 40 + 8 * Math.sin(t * Math.PI * 1.6 - .5);
-    const P = t => [8 + t * 384, Y(t)];
+    // one sprig, drawn from the left edge toward the centre; the right one is its mirror
+    const Y = t => 50 - 16 * t - 5 * Math.sin(t * Math.PI);
+    const P = t => [8 + t * 168, Y(t)];
     const ang = t => { const [x1, y1] = P(t - .005), [x2, y2] = P(t + .005); return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI; };
-    const W = t => 3.2 * (1 - .7 * t) + .5;
+    const W = t => 3 * (1 - .7 * t) + .5;
     let top = '', bot = '';
-    for (let i = 0; i <= 80; i++) { const t = i / 80, [x, y] = P(t), w = W(t); top += `${i ? 'L' : 'M'}${f(x)} ${f(y - w / 2)}`; bot = `L${f(x)} ${f(y + w / 2)}` + bot; }
+    for (let i = 0; i <= 50; i++) { const t = i / 50, [x, y] = P(t), w = W(t); top += `${i ? 'L' : 'M'}${f(x)} ${f(y - w / 2)}`; bot = `L${f(x)} ${f(y + w / 2)}` + bot; }
     const twig = el('path', { d: top + bot + 'Z', fill: '#6E604A' });
 
     const leaf = (x, y, a, L, under) => {
@@ -101,22 +101,20 @@
     };
 
     const under = [], over = [];
-    // leaves in pairs-ish along the twig, alternating sides, shorter toward the tip
-    for (let i = 0; i < 46; i++) {
-      const t = .015 + i * .0215 + rnd() * .008; if (t > .975) break;
-      const [x, y] = P(t), side = i % 2 ? 1 : -1, L = (40 - 16 * t) * (.8 + rnd() * .35);
-      const a = ang(t) + side * (24 + rnd() * 26) + (t - .5) * 10;
-      (rnd() < .4 ? under : over).push(leaf(x, y, a, L, rnd() < .4));
+    // a few leaves, alternating sides, getting shorter toward the tip
+    for (let i = 0; i < 12; i++) {
+      const t = .07 + i * .075 + rnd() * .012; if (t > .93) break;
+      const [x, y] = P(t), side = i % 2 ? 1 : -1, L = (36 - 12 * t) * (.85 + rnd() * .25);
+      const a = ang(t) + side * (30 + rnd() * 18);
+      (rnd() < .3 ? under : over).push(leaf(x, y, a, L, rnd() < .35));
     }
-    // a tip leaf pointing on along the branch
-    { const [x, y] = P(.985); over.push(leaf(x - 3, y, ang(.985) - 6, 22, false)); }
-    // olive clusters hanging under the twig
-    const fruit = [[.14, 2], [.36, 3], [.58, 2], [.8, 2]].map(([t, n]) => { const [x, y] = P(t); return olives(x, y + .5, ang(t) * .4 + (rnd() - .5) * 14, n); });
+    { const [x, y] = P(.97); over.push(leaf(x - 2, y, ang(.97) - 4, 20, false)); }   // tip leaf
+    const fruit = [[.34, 2], [.66, 1]].map(([t, n]) => { const [x, y] = P(t); return olives(x, y + .5, ang(t) * .4 + (rnd() - .5) * 10, n); });
 
-    under.forEach(n => g.append(n));
-    fruit.forEach(n => g.append(n));
-    g.append(twig);
-    over.forEach(n => g.append(n));
+    const sprig = el('g');
+    [...under, ...fruit, twig, ...over].forEach(n => sprig.append(n));
+    const mirror = sprig.cloneNode(true); mirror.setAttribute('transform', 'translate(400 0) scale(-1 1)');
+    g.append(sprig, mirror);
   })();
 
   /* ── 3 · the envelope: seal → flap opens → invitation ── */
