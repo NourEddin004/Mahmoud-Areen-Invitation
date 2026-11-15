@@ -8,3 +8,18 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Referrer-Policy = "no-referrer"
+
+# Always fetch the newest page, so a refresh never shows an older version.
+# (CSS/JS/images carry ?v=N in their links, so they still cache safely.)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+[[headers]]
+  for = "/list/"
+  [headers.values]
+    Cache-Control = "no-cache"
