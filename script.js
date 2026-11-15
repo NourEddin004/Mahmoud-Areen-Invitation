@@ -238,12 +238,32 @@
   const live = !!(DB.url && DB.key);
   const KEY = 'ma-rsvp';
 
-  function showThanks(att, name) {
-    $('#thanksTitle').textContent = att === 'yes' ? `بانتظارك يا ${name.split(' ')[0]}` : 'وصلنا ردّك';
+  function showThanks(att, name, play) {
+    const first = name.split(' ')[0];
+    $('#thanksTitle').textContent = att === 'yes' ? `بانتظارك يا ${first}` : 'وصلنا ردّك';
     $('#thanksText').textContent = att === 'yes'
       ? 'شكراً لك، حضورك سيكمل فرحتنا.'
       : 'سنفتقدك، ودعاؤك يكفينا. شكراً لأنك أخبرتنا.';
-    form.hidden = true; thanks.hidden = false;
+    $('#sentName').textContent = name.length > 22 ? first : name;
+    $('#sentAns').textContent = att === 'yes' ? 'سأحضر بكل سرور' : 'أعتذر عن الحضور';
+    form.hidden = true; form.classList.remove('leaving'); thanks.hidden = false;
+
+    const burst = $('#burst'); burst.textContent = '';
+    thanks.classList.remove('play');
+    if (!play || reduce) return;
+    void thanks.offsetWidth;                // restart the animation if it played before
+    thanks.classList.add('play');
+    if (att !== 'yes') return;              // a gentle seal for "no", a little celebration for "yes"
+    const kinds = ['leaf', 'leaf', 'petal', 'petal', 'spark', 'spark', 'spark'];
+    for (let i = 0; i < 22; i++) {
+      const a = -Math.PI * (0.06 + 0.88 * (i / 21)) + (Math.random() - .5) * .25;   // fan out upward
+      const d = 60 + Math.random() * 70;
+      const b = document.createElement('span');
+      b.className = `bit bit--${kinds[i % kinds.length]}`;
+      b.style.cssText = `--x:${(Math.cos(a) * d * 1.1).toFixed(0)}px;--y:${(Math.sin(a) * d + 30).toFixed(0)}px;` +
+                        `--r:${(Math.random() * 540 - 270).toFixed(0)}deg;--d:${(Math.random() * .25).toFixed(2)}s`;
+      burst.append(b);
+    }
   }
   try { const prev = JSON.parse(localStorage.getItem(KEY) || 'null'); if (prev) showThanks(prev.att, prev.name); } catch {}
 
@@ -279,8 +299,11 @@
         console.info('[preview] RSVP not sent — fill INVITE_DB in config.js', row);
       }
       try { localStorage.setItem(KEY, JSON.stringify({ att, name })); } catch {}
-      showThanks(att, name);
-      thanks.focus();
+      form.classList.add('leaving');
+      await wait(350);
+      showThanks(att, name, true);
+      thanks.focus({ preventScroll: true });
+      $('#rsvp').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     } catch (err) {
       // never lose a reply: hand it to WhatsApp if the network call failed
       if (C.whatsapp) {

@@ -374,7 +374,57 @@ input[type=text]:focus, input[type=tel]:focus, textarea:focus{ outline:0; border
 
 .thanks{ text-align:center; padding:2.2rem 1.5rem }
 .thanks:focus{ outline:none }
-.thanks__seal{ width:84px; margin:0 auto .6rem; animation:stamp .7s var(--ease-out) both }
+
+/* the reply, sealed: card slides into the envelope → flap closes → wax stamps it.
+   Written as the FINAL state; .play adds the motion (so a returning guest just
+   sees the sealed envelope, and reduced-motion users never see anything move). */
+.form{ transition:opacity .35s var(--ease), transform .35s var(--ease) }
+.form.leaving{ opacity:0; transform:translateY(-10px) scale(.98) }
+.sent{ width:220px; margin:0 auto 1.3rem; padding-top:26px }
+.sent__env{ position:relative; width:220px; height:142px; perspective:700px }
+.sent__back{ position:absolute; inset:0; border-radius:4px; background:linear-gradient(160deg,#8FA27F,#6B805D) }
+.sent__card{
+  position:absolute; z-index:2; left:14px; right:14px; top:10px; height:116px;
+  display:flex; flex-direction:column; align-items:center; gap:1px; padding-top:12px;
+  background:var(--paper-3); border:1px solid rgba(168,139,90,.4); border-radius:3px;
+  box-shadow:0 2px 6px rgba(60,48,30,.18);
+}
+.sent__name{ font-family:var(--f-disp); font-weight:500; font-size:1.15rem; line-height:1.4; color:var(--sepia) }
+.sent__ans{ font-size:.8rem; line-height:1.5; color:var(--sage-dk) }
+.sent__pocket{
+  position:absolute; z-index:3; inset:0; border-radius:4px;
+  clip-path:polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+  background:linear-gradient(#F6F1E6,#E8DECA);
+}
+.sent__flap{ position:absolute; z-index:4; left:0; top:0; width:100%; height:58%; transform-origin:50% 0;
+  filter:drop-shadow(0 2px 2px rgba(80,64,40,.22)) }
+.sent__flap i{ position:absolute; inset:0; clip-path:polygon(0 0, 100% 0, 50% 100%); background:linear-gradient(#EFE8DA,#FBF8F1) }
+.sent__seal{ position:absolute; z-index:5; left:50%; top:58%; width:54px; height:54px; margin:-31px 0 0 -27px;
+  filter:drop-shadow(0 3px 4px rgba(60,72,48,.35)) }
+.sent__ring{ position:absolute; z-index:5; left:50%; top:58%; width:54px; height:54px; margin:-31px 0 0 -27px;
+  border-radius:50%; border:2px solid rgba(127,148,112,.6); opacity:0 }
+.sent__burst{ position:absolute; z-index:6; left:50%; top:58%; width:0; height:0; margin-top:-4px }
+.bit{ position:absolute; left:0; top:0; opacity:0; pointer-events:none }
+.bit--leaf{ width:12px; height:7px; margin:-3.5px 0 0 -6px; border-radius:50%; background:#8FA27F }
+.bit--petal{ width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:60% 0 60% 0; background:#FFFDF7; box-shadow:0 0 0 .7px rgba(168,139,90,.5) }
+.bit--spark{ width:5px; height:5px; margin:-2.5px 0 0 -2.5px; border-radius:50%; background:#D9B878; box-shadow:0 0 6px 1px rgba(232,200,130,.7) }
+
+.play .sent__card{ animation:sentIn 1s cubic-bezier(.3,.1,.2,1) .2s both }
+@keyframes sentIn{ 0%{ transform:translateY(-128px); opacity:0 } 20%{ opacity:1 } 100%{ transform:none; opacity:1 } }
+.play .sent__flap{ animation:sentFlap .65s cubic-bezier(.5,0,.3,1) 1.25s both }
+@keyframes sentFlap{ 0%{ transform:rotateX(180deg); z-index:1 } 49.9%{ z-index:1 } 50%{ z-index:4 } 100%{ transform:rotateX(0deg); z-index:4 } }
+.play .sent__seal{ animation:stamp .5s var(--ease-out) 1.85s both }
+.play .sent__ring{ animation:ring .9s var(--ease-out) 2.2s }
+@keyframes ring{ 0%{ opacity:.9; transform:scale(1) } 100%{ opacity:0; transform:scale(2.4) } }
+.play .bit{ animation:bit 1.7s cubic-bezier(.15,.7,.3,1) calc(2.2s + var(--d, 0s)) both }
+@keyframes bit{
+  0%  { opacity:0; transform:translate(0,0) scale(.3) rotate(0) }
+  12% { opacity:1 }
+  70% { opacity:1 }
+  100%{ opacity:0; transform:translate(var(--x), var(--y)) scale(1) rotate(var(--r)) }
+}
+.thanks.play h3, .thanks.play p, .thanks.play .link-btn{ animation:rise .7s var(--ease) both }
+.thanks.play h3{ animation-delay:2.25s } .thanks.play p{ animation-delay:2.4s } .thanks.play .link-btn{ animation-delay:2.6s }
 @keyframes stamp{ from{ transform:scale(1.6) rotate(-14deg); opacity:0 } to{ transform:none; opacity:1 } }
 .thanks h3{ font-family:var(--f-disp); font-size:1.8rem; color:var(--sepia) }
 .thanks p{ color:var(--ink-soft); margin-top:.3rem }
