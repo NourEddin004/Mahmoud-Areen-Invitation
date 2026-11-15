@@ -34,6 +34,8 @@ window.INVITE = {
   venueEn : 'Mövenpick Resort & Spa Dead Sea',
   addressAr: 'سويمة — البحر الميت، الأردن',
   familiesAr: ['صالح', 'شهوان'],       // آل صالح & آل شهوان
+  // the parents who invite the guests (first screen, under the verse)
+  hostsAr : ['السيد جواد صالح', 'السيد وجيه شهوان'],
 
   // ── optional photo for the oval frame (path or URL, '' = monogram) ─
   photo   : '',

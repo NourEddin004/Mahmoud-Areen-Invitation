@@ -12,8 +12,8 @@ Personal links also work: `/?to=أبو خالد` writes the guest's name on the 
 ## Section order
 
 Follows the client's "The Arch" invitation, redrawn in this design:
-envelope (opens on its own after the card rises) → Save the Date lake →
-engraved invitation wording → countdown → venue card → ticket-style RSVP (name, attendance, guests, note) → moonlit footer.
+envelope → first screen (verse, the parents' invitation, names, date, venue, time, swan lake) →
+countdown → venue card → ticket-style RSVP (name, attendance, guests, note) → moonlit footer.
 
 ## The design — a blend of the two references
 

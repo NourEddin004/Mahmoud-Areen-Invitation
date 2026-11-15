@@ -12,7 +12,6 @@
 
   /* ── 1 · fill the page from config ─────────────────────────────── */
   const set = (sel, v) => { if (v != null) $$(sel).forEach(n => (n.textContent = v)); };
-  set('#groomFull', C.groomFullAr); set('#brideFull', C.brideFullAr);
   set('.js-groomEn', C.groomEn); set('.js-brideEn', C.brideEn);
   set('.js-gi', (C.groomAr || 'م')[0]); set('.js-bi', (C.brideAr || 'ع')[0]);
   set('#vName', C.venueAr); set('#vCity', C.cityAr);
@@ -30,7 +29,7 @@
   set('#hTime', C.timeAr);
 
   // the invitation wording and venue card
-  if (C.familiesAr) { set('#famA', C.familiesAr[0]); set('#famB', C.familiesAr[1]); }
+  if (C.hostsAr) { set('#hostA', C.hostsAr[0]); set('#hostB', C.hostsAr[1]); }
   set('#vName2', C.venueAr); set('#vEn', C.venueEn); set('#vAddr', C.addressAr);
   set('#vArrive', C.timeAr);
   if (C.photo) {
